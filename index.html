@@ -1,0 +1,985 @@
+<!-- Generated view, do not edit. Source: ~/Downloads/Vůně a svíčky.xlsx + lessons.py + samples.csv · built 2026-09-14 10:18 · regenerate: 60_PERSONAL/taste/perfumes/Update_perfumes.command -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Layering course</title>
+<style>/* ============================================================
+   design/tokens.css — IDENTITY-NEUTRAL base tokens
+   Part of the design system (10_SYSTEM/design/). Pair with ONE theme
+   from design/themes/ (2et | personal | paper-analytic).
+   Authored source file (NOT a generated view). Docs: design/themes.md.
+   Structure here = spacing, type scale, radius, elevation + the
+   semantic COLOUR SLOTS (neutral fallbacks). Colour/font VALUES
+   live in the theme file that overrides these.
+   ============================================================ */
+:root {
+  /* — Spacing scale: pick from these multiples, don't invent magic px — */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  /* — Type scale: caption -> display; size contrast carries hierarchy — */
+  --text-xs: 12px;     /* caption / muted secondary */
+  --text-sm: 14px;
+  --text-base: 16px;   /* body */
+  --text-lg: 20px;     /* section header */
+  --text-xl: 24px;
+  --text-2xl: 32px;
+  --text-3xl: 40px;    /* display / one big verdict */
+  --leading-tight: 1.2;
+  --leading-normal: 1.6;
+
+  /* — Radius — */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --radius-pill: 999px;
+
+  /* — Elevation: subtle shadow to lift a card, NEVER an edge stripe — */
+  --shadow-card: 0 2px 6px rgba(0, 0, 0, 0.15);
+  --shadow-pop: 0 6px 18px rgba(0, 0, 0, 0.20);
+
+  /* — Layout — */
+  --measure: 980px;    /* readable max content width */
+  /* breakpoints (use literally in @media; CSS vars can't drive media queries):
+     mobile <= 640px  ·  tablet <= 900px  ·  desktop > 900px */
+
+  /* ============================================================
+     SEMANTIC COLOUR + FONT SLOTS — neutral fallbacks.
+     A THEME (design/themes/*.css) overrides these. Style every
+     element through these slots, never a raw hex, so re-skinning
+     an artifact = swapping one @import.
+     ============================================================ */
+  --fg: #1a1a1a;        /* primary text */
+  --bg: #ffffff;        /* canvas */
+  --panel: #f6f6f6;     /* card / panel surface */
+  --muted: #666666;     /* secondary / dimmed — two-level reading */
+  --border: #dddddd;
+  --accent: #1840a2;    /* dominant non-neutral / primary accent */
+  --accent-2: #1ad3b8;  /* supporting accent */
+  --ok: #2e7d32;        /* RAG green / "ready" */
+  --warn: #d98a26;      /* RAG amber / "in progress" */
+  --danger: #c0392b;    /* RAG red / "missing" / over-threshold */
+
+  --display-font: Georgia, serif;                               /* headings */
+  --body-font: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --data-font: ui-monospace, "SF Mono", Menlo, monospace;       /* numbers / data */
+
+  --hairline: 1px solid var(--border);
+}
+
+/* design/themes/personal.css — Jan's personal identity.
+   TASTE PASS DECIDED 2026-08-05, palette refined 2026-08-06 (Jan).
+   Identity: "the flat at evening" — the deep green of the loveseat as the ground,
+   cream as figure (text), mustard from the 60s armchair as the accent, brick-red as
+   the bright-pot pop (coherence broken deliberately by one element of another kind).
+   The ground moved from walnut to green on 2026-08-06 for eye comfort: walnut ran the
+   body text at 13.6:1 (glare/halation on a serif) while the small caps labels sat at
+   4.1:1 (squinting). This palette lands body at 11.1:1 and every label at 6:1 or better,
+   which is the actual fix — contrast BOTH lowered where it glared and raised where it
+   strained.
+   HARD RULE (Jan, 2026-08-05): beige/cream as BACKGROUND never ships in a final version —
+   cream is text, never ground. Light first-pass drafts are fine; finals are warm-dark.
+   Print is exempt (paper is a medium, not an identity).
+   Fonts: Iowan Old Style for display+body (bookish, warm, not a generative default);
+   Futura for labels/badges/UI (the geometric interwar sans breaking the serif — the
+   typographic instance of "coherence with deliberate disruption").
+   Explicitly DISTINCT from the 2ET brand. */
+:root {
+  --fg: #e1dccd;         /* cream — figure, never ground */
+  --bg: #1f2823;         /* deep green — the loveseat */
+  --panel: #27312b;      /* lifted surface */
+  --panel-2: #2e3933;    /* highlight surface (master cards, hover) */
+  --muted: #9fab99;
+  --border: #3a463d;
+  --accent: #d8a64c;     /* mustard — the 60s armchair */
+  --accent-2: #eec680;   /* lighter amber for labels/links on the dark ground */
+  --ok: #b0ca9c;         /* pale green for confirmations and badges */
+  --warn: #d8a64c;
+  --danger: #ef9a7e;     /* brick red — warnings and the "red pot" pop */
+
+  --display-font: 'Iowan Old Style', Palatino, Georgia, serif;
+  --body-font: 'Iowan Old Style', Palatino, Georgia, serif;
+  --ui-font: Futura, 'Avenir Next', sans-serif;
+  --data-font: ui-monospace, monospace;
+
+  --accent-sea: #6f9aad; /* spatial / maps accent */
+}
+
+/* design/themes/personal-resin.css — personal identity, RESIN variant.
+   Layers on top of themes/personal.css (import base tokens, then personal, then this).
+
+   Why variants exist (Jan, 2026-09-04): "every artifact, particularly in the personal
+   scheme, should be slightly different, so an open window tells me [which one it is]."
+   Several personal artifacts had converged on the base palette (cookbook and fair-play
+   both shipped the green ground with the mustard accent), which makes two open windows
+   indistinguishable at a glance. A variant keeps the personal identity — warm, dark,
+   cream as figure, never a beige ground — and shifts the ground and the accent enough
+   that the window is identifiable from across the room. Register every variant in
+   design/themes.md so two artifacts cannot claim the same one.
+
+   This variant: dark resin brown as the ground, pale sage as the accent. It inverts the
+   base relationship (green ground + mustard accent becomes brown ground + green accent),
+   which is what makes it legible next to the cookbook rather than a near-miss of it.
+   Amber survives as the secondary pop so it still reads as the same family.
+
+   Contrast, measured against --panel: body 11.4:1, muted labels 6.6:1, accent 7.2:1,
+   secondary accent 10.0:1, danger 6.5:1. Same both-directions discipline as the base
+   theme: high enough for the small labels, not so high that a serif halates on long text.
+
+   In use by: 60_PERSONAL/taste/perfumes/layering-course.html */
+:root {
+  --fg: #e6dfd2;         /* cream, figure only */
+  --bg: #241d1b;         /* dark resin brown, the ground */
+  --panel: #2d2422;      /* lifted surface */
+  --panel-2: #372c29;    /* hover / selected surface */
+  --muted: #b8a99c;
+  --border: #43352f;
+  --accent: #9dbb92;     /* pale sage, the variant's signature */
+  --accent-2: #c3d9b6;   /* lighter sage for labels and links */
+  --ok: #9dbb92;
+  --warn: #d8a64c;       /* amber survives from the base family */
+  --danger: #e0997e;     /* brick, kept from the base */
+}
+
+:root { --why-bg: #33302a; --watch-bg: #3a2c28; --clock-bg: #2b3129; --ink-soft: #c9c0b2; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--body-font);
+       font-size: var(--text-base); line-height: 1.55; }
+a { color: var(--accent-2); }
+.layout { display: grid; grid-template-columns: 250px minmax(0, 1fr) 290px; min-height: 100vh; }
+body.no-rail .layout { grid-template-columns: 250px minmax(0, 1fr); }
+body.no-rail .railcol { display: none; }
+
+nav { position: sticky; top: 0; height: 100vh; overflow-y: auto; padding: var(--space-6) var(--space-4);
+      border-right: var(--hairline); }
+nav h1 { font-family: var(--display-font); font-size: var(--text-lg); font-weight: 600; margin: 0 0 var(--space-1); }
+nav .sub { font-size: var(--text-xs); color: var(--muted); margin-bottom: var(--space-5); }
+.grouplabel { font-family: var(--ui-font); font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+              color: var(--muted); margin: var(--space-5) 0 var(--space-2); }
+.item { display: block; padding: 7px 10px; text-decoration: none; color: var(--fg); font-size: var(--text-sm);
+        line-height: 1.3; cursor: pointer; border: 0; background: transparent; width: 100%; text-align: left;
+        font-family: var(--body-font); }
+.item .el { display: block; font-family: var(--ui-font); font-size: 10px; letter-spacing: .1em;
+            text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+.item.active { background: var(--panel); box-shadow: inset 3px 0 0 var(--accent); }
+.item[data-done="1"] .el { color: var(--ok); }
+nav .foot { font-size: var(--text-xs); color: var(--muted); margin-top: var(--space-6); border-top: var(--hairline);
+            padding-top: var(--space-3); }
+nav .warnbar { color: var(--danger); font-size: var(--text-xs); border-left: 2px solid var(--danger);
+               padding-left: var(--space-2); margin-top: var(--space-4); }
+
+main { padding: 36px 44px 90px; min-width: 0; }
+.sheet { max-width: 760px; margin: 0 auto; }
+article { display: none; }
+article.on { display: block; }
+
+.kicker { font-family: var(--ui-font); font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase;
+          color: var(--accent-2); margin-bottom: var(--space-2); display: flex; flex-wrap: wrap; gap: 4px 22px; }
+h2.title { font-family: var(--display-font); font-size: var(--text-2xl); font-weight: 600; margin: 0 0 var(--space-3); line-height: 1.15; }
+.dek { font-style: italic; color: var(--ink-soft); font-size: 16.5px; margin: 0 0 var(--space-4); max-width: 62ch; }
+.metastrip { display: flex; flex-wrap: wrap; gap: 6px 22px; font-family: var(--ui-font); font-size: 11px; letter-spacing: .04em;
+             text-transform: uppercase; color: var(--ink-soft); padding-bottom: 12px; border-bottom: 3px solid var(--accent);
+             margin-bottom: 26px; }
+.metastrip b { color: var(--fg); }
+.borrowed { color: var(--muted); border-left: 2px solid var(--border); padding-left: var(--space-3);
+            font-size: var(--text-sm); margin: 0 0 var(--space-5); }
+.gap { color: var(--danger); font-family: var(--ui-font); font-size: var(--text-sm); margin: 0 0 var(--space-4); }
+
+.sechead { display: flex; align-items: center; gap: 10px; margin: 34px 0 6px; padding-bottom: 6px; border-bottom: var(--hairline); }
+.sechead h3 { font-family: var(--display-font); font-size: var(--text-lg); font-weight: 600; margin: 0; }
+.seclet { font-family: var(--ui-font); font-size: 11px; font-weight: 700; color: var(--bg); background: var(--accent);
+          width: 20px; height: 20px; border-radius: 2px; display: flex; align-items: center; justify-content: center; flex: none; }
+.secnote { color: var(--muted); font-size: var(--text-sm); margin: 0 0 var(--space-3); }
+p { margin: 0 0 var(--space-3); }
+ul.need { margin: 0 0 var(--space-3); padding-left: 1.2em; }
+ul.need li { margin-bottom: 6px; }
+
+table.clock { border-collapse: collapse; width: 100%; font-size: var(--text-sm); margin: var(--space-2) 0 var(--space-4); }
+table.clock th { font-family: var(--ui-font); font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
+                 text-align: left; font-weight: 500; padding: 0 var(--space-4) var(--space-2) 0; }
+table.clock td { padding: var(--space-2) var(--space-4) var(--space-2) 0; border-top: var(--hairline); vertical-align: top; }
+table.clock td.k { font-family: var(--data-font); color: var(--ok); white-space: nowrap; width: 60px; }
+
+.step { margin: 20px 0 6px; }
+.shead { display: flex; align-items: baseline; gap: 10px; margin-bottom: 6px; }
+.num { font-family: var(--ui-font); font-weight: 700; font-size: var(--text-sm); color: var(--danger); flex: none; min-width: 20px; }
+.shead h5 { font-family: var(--ui-font); font-size: 14.5px; font-weight: 700; margin: 0; }
+.when { font-family: var(--data-font); font-size: 10px; font-weight: 700; letter-spacing: .06em; color: var(--ok);
+        background: var(--clock-bg); border: 1px solid var(--border); border-radius: 20px; padding: 2px 10px; white-space: nowrap; }
+.box { border-left: 3px solid; padding: 10px 14px; margin: 10px 0 14px; font-size: 14.5px; line-height: 1.5; }
+.box .bh { display: block; font-family: var(--ui-font); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 4px; }
+.box.why { background: var(--why-bg); border-color: var(--accent); }
+.box.why .bh { color: var(--accent-2); }
+.box.watch { background: var(--watch-bg); border-color: var(--danger); }
+.box.watch .bh { color: var(--danger); }
+
+.fork { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin: var(--space-3) 0 var(--space-4); }
+.fork div { border-top: 2px solid var(--accent); padding-top: var(--space-2); font-size: var(--text-sm); }
+.fork span { font-family: var(--ui-font); font-size: 10.5px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted);
+             display: block; margin-bottom: var(--space-1); }
+textarea { width: 100%; background: var(--bg); color: var(--fg); border: var(--hairline); font-family: var(--body-font);
+           font-size: var(--text-base); padding: var(--space-3); line-height: 1.55; resize: vertical; }
+textarea:focus { outline: 2px solid var(--accent); }
+.act { margin-top: var(--space-3); display: flex; gap: var(--space-3); align-items: center; flex-wrap: wrap; }
+button.go { background: var(--accent); color: #22271f; border: 0; padding: var(--space-2) var(--space-5); font-family: var(--ui-font);
+            font-size: var(--text-sm); letter-spacing: .06em; cursor: pointer; }
+button.go:hover { background: var(--accent-2); }
+button.ghost { background: transparent; color: var(--muted); border: var(--hairline); padding: var(--space-2) var(--space-4);
+               font-family: var(--ui-font); font-size: var(--text-sm); cursor: pointer; }
+button.ghost:hover { color: var(--fg); }
+.locked { color: var(--muted); font-style: italic; font-size: var(--text-sm); }
+.committed { background: var(--bg); border: var(--hairline); border-left: 2px solid var(--ok); padding: var(--space-3); white-space: pre-wrap; }
+.srchead { font-family: var(--ui-font); font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+           color: var(--muted); margin: 30px 0 6px; }
+ul.sources { margin: 0 0 var(--space-4); padding-left: 1.1em; font-size: var(--text-xs); color: var(--muted); line-height: 1.5; }
+ul.sources li { margin-bottom: 3px; }
+ul.sources a { color: var(--muted); text-decoration-color: var(--border); }
+ul.sources a:hover { color: var(--accent-2); }
+.foundation .srchead { margin-top: 14px; }
+.endnote { font-style: italic; color: var(--muted); font-size: var(--text-sm); border-top: var(--hairline); margin-top: 26px; padding-top: 10px; }
+
+table.index { border-collapse: collapse; width: 100%; font-size: var(--text-sm); margin: 6px 0 26px; }
+table.index th { font-family: var(--ui-font); font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
+                 text-align: left; font-weight: 500; padding: 0 var(--space-4) var(--space-2) 0; }
+table.index td { padding: var(--space-2) var(--space-4) var(--space-2) 0; border-top: var(--hairline); vertical-align: top; }
+td.wk { white-space: nowrap; width: 40px; font-family: var(--ui-font); font-size: 11px; font-weight: 700; color: var(--accent-2); }
+td.lt { width: 200px; }
+td.lt button { background: transparent; border: 0; color: var(--fg); font-family: var(--body-font); font-size: var(--text-sm);
+               text-align: left; padding: 0; cursor: pointer; text-decoration: underline; text-decoration-color: var(--border); }
+td.lt button:hover { text-decoration-color: var(--accent); }
+.foundation { background: var(--why-bg); border-left: 3px solid var(--accent); padding: 14px 18px; margin: 20px 0 30px; }
+.foundation .bh { display: block; font-family: var(--ui-font); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
+                  color: var(--accent-2); margin-bottom: 8px; }
+.foundation p { font-size: 14.5px; }
+td.cls { font-family: var(--ui-font); font-size: 10.5px; text-transform: uppercase; letter-spacing: .06em; white-space: nowrap; }
+.c-complete { color: var(--ok); } .c-open { color: var(--accent-2); } .c-strong { color: var(--warn); } .c-unrated { color: var(--muted); }
+
+.railcol { padding: 36px 18px 90px 0; }
+.rail { display: none; position: sticky; top: 36px; max-height: calc(100vh - 36px); overflow-y: auto; }
+.rail.on { display: block; }
+.raillabel { font-family: var(--ui-font); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.tcard { background: var(--panel); border: 1px solid var(--border); border-radius: 2px; padding: 13px 15px; margin-bottom: 12px;
+         font-size: 13.5px; line-height: 1.5; transition: box-shadow .25s, border-color .25s; cursor: pointer; }
+.tcard .th { display: block; font-family: var(--ui-font); font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase;
+             color: var(--accent-2); margin-bottom: 6px; }
+.tcard p { margin: 0; }
+.tcard.master { border-color: var(--accent); background: var(--panel-2); cursor: default; }
+.tcard.lit { border-color: var(--danger); box-shadow: 0 0 10px rgba(224, 153, 126, .35); }
+
+@media (max-width: 1100px) {
+  .layout, body.no-rail .layout { grid-template-columns: 220px minmax(0, 1fr); }
+  .railcol { display: none; }
+}
+@media (max-width: 760px) {
+  .layout, body.no-rail .layout { grid-template-columns: 1fr; }
+  nav { position: static; height: auto; border-right: 0; border-bottom: var(--hairline); }
+  main { padding: 24px 18px 60px; }
+  .fork { grid-template-columns: 1fr; }
+}
+@media print {
+  nav, .railcol, .act, textarea { display: none; }
+  .layout, body.no-rail .layout { display: block; }
+  article { display: none; }
+  article.on { display: block; }
+}
+</style>
+</head>
+<body class="no-rail">
+<div class="layout">
+<nav><h1>Learning to layer</h1><div class="sub"><span id="count"></span></div><button class="item" data-goto="index"><span class="el">Start here</span>The course at a glance</button><div class="grouplabel">Calibration</div><button class="item" data-goto="l1" data-n="1"><span class="el">Lesson 1</span>Rate the one you never rated</button><button class="item" data-goto="l2" data-n="2"><span class="el">Lesson 2</span>Nothing is decided in the first ten minutes</button><button class="item" data-goto="l3" data-n="3"><span class="el">Lesson 3</span>One idea, loudly</button><button class="item" data-goto="l4" data-n="4"><span class="el">Lesson 4</span>Can you smell Iso E Super at all</button><div class="grouplabel">Open under complete</div><button class="item" data-goto="l5" data-n="5"><span class="el">Lesson 5</span>Two things that agree</button><button class="item" data-goto="l6" data-n="6"><span class="el">Lesson 6</span>Powder under smoke</button><button class="item" data-goto="l7" data-n="7"><span class="el">Lesson 7</span>Order and distance</button><div class="grouplabel">Open plus open</div><button class="item" data-goto="l8" data-n="8"><span class="el">Lesson 8</span>Two quiet ones</button><button class="item" data-goto="l9" data-n="9"><span class="el">Lesson 9</span>Rain and turpentine</button><button class="item" data-goto="l10" data-n="10"><span class="el">Lesson 10</span>White flower over amber</button><button class="item" data-goto="l11" data-n="11"><span class="el">Lesson 11</span>Someone already made this</button><button class="item" data-goto="l12" data-n="12"><span class="el">Lesson 12</span>Your build</button><div class="grouplabel">Strong and composed</div><button class="item" data-goto="l13" data-n="13"><span class="el">Lesson 13</span>Portrait of a Lady, wearable</button><button class="item" data-goto="l14" data-n="14"><span class="el">Lesson 14</span>The axis you reject</button><button class="item" data-goto="l15" data-n="15"><span class="el">Lesson 15</span>The pair you expect not to work</button><div class="grouplabel">Across families</div><button class="item" data-goto="l16" data-n="16"><span class="el">Lesson 16</span>Fruit over campfire</button><button class="item" data-goto="l17" data-n="17"><span class="el">Lesson 17</span>Honey against resin</button><div class="foot">Built from ~/Downloads/Vůně a svíčky.xlsx<br>Entries persist in this browser.</div><p class="warnbar" id="warn" hidden></p></nav>
+<main><div class="sheet">
+<article id="index"><div class="kicker"><span>Seventeen lessons</span><span>One variable each</span><span>twenty-one bottles at home</span></div><h2 class="title">The course at a glance</h2><p class="dek">The twenty-one bottles at home differ in how much they assert. Six say everything they have to say on their own, seven leave room, and seven have never been rated. Layering is the question of what goes into the room the quiet ones leave, and each lesson isolates one variable of that question.</p><div class="metastrip"><span><b>17</b> wearing days</span><span><b>5</b> modules</span><span>one <b>variable</b> per lesson</span><span>predict <b>before</b> you spray</span></div><div class="foundation"><span class="bh">How to smell, before any of this works</span><p><b>When you stop smelling your own wrist, the scent is still there.</b> Recordings taken directly at the olfactory epithelium show the receptor signal holding steady across repeated exposures while people's intensity ratings fall; the drop happens in the cortex, not in the nose (Mignot et al. 2021). Two weeks of living with one odour raised detection thresholds that were still measurable two weeks after it stopped (Dalton and Wysocki 1996). So after roughly half an hour on your own skin, your report is of your attention, not of the perfume. Someone who walks into the room is better instrumentation, and so is a sleeve you sprayed and left.</p><p><b>Coffee beans do nothing.</b> In the one controlled test, sniffing coffee between perfumes produced 62 percent correct identification against 57 percent for plain air, a difference that did not reach significance (Grosofsky et al. 2011). Smelling the crook of your elbow or a wool sleeve is untested either way: plausible, never measured. What is measured is removal and time. And wearing a perfume of your own while trying to judge another one lowers your combined smell-test score from 33 to 27 (Beekman et al. 2022), which is why every lesson here starts with clean skin and nothing else on it.</p><p><b>A perfume does not evaporate in three stages. Everything leaves at once, at different speeds.</b> Measured on forearms over seven hours, linalool was 68 percent gone and cinnamic alcohol 4 percent gone, although cinnamic alcohol is the lighter molecule; what governs the rate is vapour pressure, not weight (Saiyasombati and Kasting 2003). The top, heart and base pyramid descends from Poucher's 1 to 100 evaporation coefficients and Jean Carles's three columns, and the timings usually quoted for each tier carry, on their most-read summary, a literal citation needed. Turin still uses the three stages descriptively, so treat it as a working sketch of one continuous curve. The clock table in every lesson is about when <i>you</i> read, not about tiers.</p><p><b>Skin, paper and cloth are three different instruments.</b> Skin runs at about 34 degrees, carries sebum that dissolves the oil-loving materials, and hosts bacteria that transform some of them; a blotter does none of that, which is why Sylvaine Delacourte calls paper one-dimensional and skin three-dimensional. Cloth holds a scent for days because it has none of the skin's heat or chemistry; that is an inference from textile science rather than a fragrance study, and the course uses it as one. Where a lesson wants a stable reading, it asks for cloth; where it wants the real thing, skin.</p><p><b>A nose is a memory, not an organ.</b> Carles, who trained Grasse's perfumers for decades, wrote that anyone may acquire a highly developed sense of smell as this is merely a matter of practice, and set aside half an hour a day for it; a working perfumer interviewed sixty years later says I do not believe I have a better sense of smell than the average person. Speakers of Jahai name odours as readily as colours, because their language has words for them (Majid and Burenhult 2014). But one thing to hold onto: a controlled study found that giving people the names of what they were smelling changed how they described it and not at all how well they could tell two samples apart (Cormiea and Fischer 2023). Naming and discriminating are separate skills. The course trains both, and does not pretend one is the other.</p><p><b>Compare, and predict before you smell.</b> Two things side by side on two forearms are far easier to tell apart than one thing on its own; every professional method from Carles's ratio pairs to a factory's retained reference batch is built on judging against an anchor rather than in isolation. Smell A, then B, then A again before you write anything. And write the prediction before the spray, because expectation overrides even trained noses: 54 oenology students described a white wine dyed red in the vocabulary of red wine (Morrot et al. 2001). Where a lesson can be run blind, with a second person spraying the arms and not telling you which is which, it says so.</p><div class="srchead">Sources</div><ul class="sources"><li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9130158/">Mignot, Schunke, Sinding and Hummel, Olfactory adaptation: recordings from the human olfactory epithelium, Eur Arch Otorhinolaryngol 2021</a></li><li><a href="https://link.springer.com/article/10.3758/BF03213109">Dalton and Wysocki, The nature and duration of adaptation following long-term odor exposure, Perception and Psychophysics 1996</a></li><li><a href="https://journals.sagepub.com/doi/10.2466/24.PMS.112.2.536-538">Grosofsky, Haupert and Versteeg, An exploratory investigation of coffee and lemon scents and odor identification, Perceptual and Motor Skills 2011</a></li><li><a href="https://www.firstnerve.com/2011/05/coffee-bean-meme-olfactory-palate.html">Avery Gilbert, The coffee bean meme, First Nerve 2011</a></li><li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8834429/">Beekman et al., Should panelists refrain from wearing a personal fragrance prior to sensory evaluation?, Foods 2022</a></li><li><a href="https://onlinelibrary.wiley.com/doi/10.1046/j.1467-2494.2003.00194.x">Saiyasombati and Kasting, Two-stage kinetic analysis of fragrance evaporation and absorption from skin, Int J Cosmetic Science 2003</a></li><li><a href="https://en.wikipedia.org/wiki/Note_(perfumery)">Note (perfumery), Wikipedia, citing Poucher&#x27;s Perfumes, Cosmetics and Soaps vol. 2</a></li><li><a href="https://shop.perfumersapprentice.com/perfumersworkshop/carles1.pdf">Jean Carles, A method of creation in perfumery, 1961 (PDF)</a></li><li><a href="https://blog.delacourte.com/en/testing-a-perfume/">Sylvaine Delacourte, Testing a perfume (blog)</a></li><li><a href="https://perfumesociety.org/are-perfumers-born-with-a-special-gift-how-do-they-train-their-noses/">Are perfumers born with a special gift? How do they train their noses?, The Perfume Society</a></li><li><a href="https://pubmed.ncbi.nlm.nih.gov/24355816/">Majid and Burenhult, Odors are expressible in language, as long as you speak the right language, Cognition 2014</a></li><li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9889793/">Cormiea and Fischer, Odor discrimination is immune to the effects of verbal labels, Scientific Reports 2023</a></li><li><a href="https://www.sciencedirect.com/science/article/abs/pii/S0093934X01924939">Morrot, Brochet and Dubourdieu, The color of odors, Brain and Language 2001</a></li></ul></div><div class="sechead"><span class="seclet">1</span><h3>Calibration</h3></div><p class="secnote">Nothing is layered yet. These four establish what your nose does over a day, what a single material sounds like, and whether you can perceive the two commonest fixatives at all, so that every later result is readable rather than a mood.</p><table class="index"><tr><th>Lesson</th><th>Title</th><th>What it isolates</th></tr><tr><td class="wk">1</td><td class="lt"><button data-goto="l1">Rate the one you never rated</button></td><td>A single bottle across a whole day: what a drydown is, and what your nose stops telling you.</td></tr><tr><td class="wk">2</td><td class="lt"><button data-goto="l2">Nothing is decided in the first ten minutes</button></td><td>How a complete and an open bottle diverge over four hours, and why the opening is a poor predictor.</td></tr><tr><td class="wk">3</td><td class="lt"><button data-goto="l3">One idea, loudly</button></td><td>What a single dominant material sounds like on its own, and how to carry a name for it into other bottles.</td></tr><tr><td class="wk">4</td><td class="lt"><button data-goto="l4">Can you smell Iso E Super at all</button></td><td>Whether your receptors report the two commonest fixatives, and what a fixative actually does.</td></tr></table><div class="sechead"><span class="seclet">2</span><h3>Open under complete</h3></div><p class="secnote">A quiet bottle beside one you already love. Low risk, because if the pair does nothing you are still wearing the one you chose, and the three variables people confuse (order, placement, cloth) get separated here before they can confuse a result.</p><table class="index"><tr><th>Lesson</th><th>Title</th><th>What it isolates</th></tr><tr><td class="wk">5</td><td class="lt"><button data-goto="l5">Two things that agree</button></td><td>What overlapping materials do: concentration, not dimension.</td></tr><tr><td class="wk">6</td><td class="lt"><button data-goto="l6">Powder under smoke</button></td><td>Complementary roles: a texture under a statement.</td></tr><tr><td class="wk">7</td><td class="lt"><button data-goto="l7">Order and distance</button></td><td>Same spot, separate zones, and cloth: three placement variables, separated.</td></tr></table><div class="sechead"><span class="seclet">3</span><h3>Open plus open</h3></div><p class="secnote">Two bottles that each leave room, built into something that fills it. This is the skill the course exists for, and the module where you first choose a pair yourself.</p><table class="index"><tr><th>Lesson</th><th>Title</th><th>What it isolates</th></tr><tr><td class="wk">8</td><td class="lt"><button data-goto="l8">Two quiet ones</button></td><td>Whether two open bottles build something, or thin each other.</td></tr><tr><td class="wk">9</td><td class="lt"><button data-goto="l9">Rain and turpentine</button></td><td>Open in the same direction, or in different ones.</td></tr><tr><td class="wk">10</td><td class="lt"><button data-goto="l10">White flower over amber</button></td><td>A volatile floral over a heavy base: complementary vapour pressure, and the relay as an alternative.</td></tr><tr><td class="wk">11</td><td class="lt"><button data-goto="l11">Someone already made this</button></td><td>The edge of what layering can do: stacked versus composed.</td></tr><tr><td class="wk">12</td><td class="lt"><button data-goto="l12">Your build</button></td><td>Choosing a pair and predicting it without a given answer; then bridging by hand.</td></tr></table><div class="sechead"><span class="seclet">4</span><h3>Strong and composed</h3></div><p class="secnote">Bottles that set the terms of whatever they are in, and what a second bottle can and cannot do about that. Ends with the vocabulary for why a pair does not hold.</p><table class="index"><tr><th>Lesson</th><th>Title</th><th>What it isolates</th></tr><tr><td class="wk">13</td><td class="lt"><button data-goto="l13">Portrait of a Lady, wearable</button></td><td>Dose versus structure: two different ways to make a strong bottle wearable.</td></tr><tr><td class="wk">14</td><td class="lt"><button data-goto="l14">The axis you reject</button></td><td>Whether an objection is to the materials or to the construction.</td></tr><tr><td class="wk">15</td><td class="lt"><button data-goto="l15">The pair you expect not to work</button></td><td>Naming why a combination does not hold, in the vocabulary of role and clock.</td></tr></table><div class="sechead"><span class="seclet">5</span><h3>Across families</h3></div><p class="secnote">Material from a borrowed shelf that no bottle of yours contains. The only place in the course where you layer across a family line rather than within one, which is also the only place the direction your record says you are chasing can show up.</p><table class="index"><tr><th>Lesson</th><th>Title</th><th>What it isolates</th></tr><tr><td class="wk">16</td><td class="lt"><button data-goto="l16">Fruit over campfire</button></td><td>Layering across a family line: material with no prior.</td></tr><tr><td class="wk">17</td><td class="lt"><button data-goto="l17">Honey against resin</button></td><td>Sweetness itself, or sweetness with nothing under it.</td></tr></table><div class="sechead"><span class="seclet">S</span><h3>Your shelf, classified from the sheet</h3></div><p class="secnote">Sorted by how much room each one leaves, read out of your own verdicts. A bottle you described as quiet, subtle or powdery counts as open even where you also rated it V&#253;born&#225;, because the room is what layering uses. Unrated is a gap in the record, not a judgement.</p><table class="index"><tr><th>Bottle</th><th>Class</th><th>Family</th><th>Your verdict</th></tr><tr><td>Profumum Roma, Victrix</td><td class='cls c-complete'>Complete</td><td>Aromatic, Soft spicy</td><td>Výborná vůně, jen mi přišla podobná už těm, co mám.</td></tr><tr><td>Maison Trudon, II</td><td class='cls c-complete'>Complete</td><td>Woody, Green</td><td>Výborná vůně</td></tr><tr><td>Perfurmer H, Rain Wood</td><td class='cls c-complete'>Complete</td><td>Woody, Amber</td><td>Výborná vůně</td></tr><tr><td>Aesop, Ouranon</td><td class='cls c-complete'>Complete</td><td>Amber, Herbal</td><td>Výborná vůně</td></tr><tr><td>Perfumer H, Angelica</td><td class='cls c-complete'>Complete</td><td>Fresh spicy, Aromatic</td><td>Výborná vůně</td></tr><tr><td>Thomas de Monaco, Fuego Futuro</td><td class='cls c-complete'>Complete</td><td>Woody, Aromatic</td><td>Výborná vůně</td></tr><tr><td>Le Labo, Fleur d&#x27;Oranger 27</td><td class='cls c-open'>Open</td><td>Citrus, White floral</td><td>Dobrá, ale možná trochu nudná</td></tr><tr><td>Mihan Aromatics, Petrichor Plains</td><td class='cls c-open'>Open</td><td>Water</td><td>Už nudná</td></tr><tr><td>Matiere Premiere, Bois d Ebene</td><td class='cls c-open'>Open</td><td>Woody</td><td>Unisex, dá se, ale trochu nic moc. Pudrovitá</td></tr><tr><td>Comme des Garcons, Monocle scent One: Hinoki</td><td class='cls c-open'>Open</td><td>Woody</td><td>Spíš nudná</td></tr><tr><td>Maison Crivelli, Citrus Batikanga</td><td class='cls c-open'>Open</td><td>Citrus, Aromatic</td><td>Spíš nudná, i když hezké koření.</td></tr><tr><td>Clive Christian, V Amber Fouguere</td><td class='cls c-open'>Open</td><td>Amber, Fresh spicy</td><td>Mírně nasládlá (amber?), až tabáková/kožená. Ale něčím dost tuctová</td></tr><tr><td>Perfurmer H, Moss</td><td class='cls c-open'>Open</td><td>Woody, Aromatic</td><td>Výborná vůně, trochu slabší ale, spíš subtle</td></tr><tr><td>Frederic Malle, Portrait of a Lady</td><td class='cls c-strong'>Strong</td><td>Warm spicy, Amber, Rose</td><td>Dobrá. Ale cítím, že pro ni teď nemám moc použití kvůli síle</td></tr><tr><td>Mihan Aromatics, Moonlark Ash</td><td class='cls c-unrated'>Unrated</td><td>Dry wood</td><td>Vůně jako sezení venku u ohně / Drží přes den / Není tak silný &quot;oblak&quot;</td></tr><tr><td>Profumum Roma, Arso</td><td class='cls c-unrated'>Unrated</td><td></td><td></td></tr><tr><td>Perfumer H, Bergamot</td><td class='cls c-unrated'>Unrated</td><td>Citrus, Aromatic</td><td>Lyn Harris 2023. The bright citrus nothing else at home covers, but an eau de parfum with frankincense and tonka under it, not a cologne that vanishes.</td></tr><tr><td>Comme des Garcons, Wonderwood</td><td class='cls c-unrated'>Unrated</td><td>Woody</td><td>Antoine Lie 2010. A wood overdose; cypress and vetiver dominate.</td></tr><tr><td>Le Labo, Vetiver 46</td><td class='cls c-unrated'>Unrated</td><td>Woody, Smoky</td><td>Mark Buxton 2006. Burnt smoky incense over peppery cedar.</td></tr><tr><td>Maison Crivelli, Lys Solaberg</td><td class='cls c-unrated'>Unrated</td><td>Floral, Woody</td><td>Nathalie Feisthauer 2021. A lily sitting on a smoky woody base that is already most of Jan&#x27;s palette.</td></tr><tr><td>Hugo Boss, Boss Bottled Night</td><td class='cls c-unrated'>Unrated</td><td>Woody, Aromatic</td><td>Old bottle. The mainstream designer axis Jan rejects, and the only thing at home on it.</td></tr></table><div class="act"><button class="ghost" id="export">Collect what I have written</button></div><textarea id="exportbox" rows="10" hidden></textarea><p class="endnote">Source of truth is the sheet in Drive plus samples.csv beside this file. Edit those, never this page.</p></article>
+<article id="l1">
+<div class="kicker"><span>One bottle</span><span>A full day</span><span>Calibration</span></div>
+<h2 class="title">Rate the one you never rated</h2>
+<p class="dek">The sheet carries a comment on this bottle but no verdict, so it is the one whose class nothing in your record decides. A full day, read at fixed times, settles it and installs the habit every later lesson runs on.</p>
+<div class="metastrip"><span><b>1</b> bottle</span><span><b>6 h</b> of readings</span><span><b>1</b> second nose</span></div>
+<div class="sechead" id="l1-sA"><span class="seclet">A</span><h3>Before you start</h3></div>
+<ul class="need"><li>Moonlark Ash, two sprays on the inside of one forearm, from about ten centimetres. Nothing else on the skin that day: no other perfume, no scented soap or lotion that morning.</li><li>Alarms at 0:30, 2:00 and 6:00. Not reminders you might notice; alarms.</li><li>A second person around hour three. Someone you live with is the obvious one.</li><li>Somewhere to write four short readings. Section D below, or paper you will copy in.</li></ul>
+<div class="sechead" id="l1-sB"><span class="seclet">B</span><h3>The clock: what to read, and when</h3></div>
+<p class="secnote">Set alarms. A reading taken when you happen to notice the scent over-samples the loud moments.</p>
+<table class="clock"><tr><th>Time</th><th>What is happening</th><th>What to write</th></tr>
+<tr><td class="k">0:00</td><td>Alcohol and the lightest materials, loud and unrepresentative.</td><td>Nothing. Do not write yet.</td></tr>
+<tr><td class="k">0:30</td><td>The opening has mostly gone; the bergamot and pepper are giving way to the pine and sap.</td><td>One line: what is it doing now, in plain words.</td></tr>
+<tr><td class="k">2:00</td><td>The heart, warmed by skin. Your nose has been adapting for ninety minutes.</td><td>One line. Does it still say what it said at 0:30?</td></tr>
+<tr><td class="k">3:00</td><td>You are now reporting your attention, not the perfume.</td><td>Ask your second nose. Write what they say, not what you think.</td></tr>
+<tr><td class="k">6:00</td><td>Base only, close to the skin: cypress, vetiver, incense, whatever is left.</td><td>One line. Then the verdict: complete, open, or strong.</td></tr>
+</table>
+<div class="sechead" id="l1-sC"><span class="seclet">C</span><h3>Steps</h3></div>
+<div class="step" id="l1-s1"><div class="shead"><span class="num">1</span><h5>Two sprays, one forearm, then leave it alone</h5></div>
+<p>Spray Moonlark Ash twice on the inside of one forearm and let it dry on its own. Do not rub the wrists together.</p>
+<div class="box why"><span class="bh">Why not rub</span>Rubbing spreads the liquid thin and warms it, which pushes the most volatile materials off faster and changes the opening. Since the opening is the part of the day you are about to ignore anyway, the damage is small, but the habit is worth breaking now.</div>
+<div class="box watch"><span class="bh">Watch for: The first ten minutes</span>Alcohol and top notes. Whatever you think of it in this window is a judgment on the part that is leaving.</div>
+</div>
+<div class="step" id="l1-s2"><div class="shead"><span class="num">2</span><h5>Read at the alarm, not when you remember</h5><span class="when">0:30</span></div>
+<p>At each alarm, smell the forearm from a normal distance first, then close. Write one line. Then stop smelling it until the next alarm.</p>
+<div class="box why"><span class="bh">Why the clock beats attention</span>Attention is drawn by intensity. An unscheduled reading over-samples the loud moments and under-samples the drydown, which is most of the day. Fixed times catch the quiet hours, and they make readings comparable across lessons: 0:30 here means the same thing as 0:30 in lesson 12.</div>
+<div class="box watch"><span class="bh">Watch for: Checking between alarms</span>Each sniff between readings adds to the adaptation you are trying to read around. Leave it.</div>
+</div>
+<div class="step" id="l1-s3"><div class="shead"><span class="num">3</span><h5>Borrow a nose at hour three</h5><span class="when">3:00</span></div>
+<p>Ask your second nose what it smells like from a normal distance, and whether they can still smell it at all. Write down their words.</p>
+<div class="box why"><span class="bh">Why hour three</span>By then your cortex has been suppressing the report for over two hours; the receptor signal has not changed (Mignot et al. 2021). Someone who walks into the room has none of that history and is reading the perfume, not your attention.</div>
+<div class="box watch"><span class="bh">Watch for: Leading the witness</span>Ask what it smells like, not whether it smells of campfire. The description you want is hers.</div>
+</div>
+<div class="step" id="l1-s4"><div class="shead"><span class="num">4</span><h5>The verdict at six hours</h5><span class="when">6:00</span></div>
+<p>Write the last line, then decide: does this bottle say everything it has to say on its own, does it leave room, or does it set the terms of whatever it is in? That is the sheet's missing verdict. Put it in the sheet as well; the course is built from it.</p>
+</div>
+<div class="sechead" id="l1-sD"><span class="seclet">D</span><h3>Prediction, then result</h3></div>
+<div id="rec-l1" data-n="1" data-predict="Before you spray: does it fill the space on its own, or leave room? And what in your existing comment on it (sitting outdoors by a fire, lasts all day, not such a strong cloud) already answers that?"></div>
+<div class="srchead">Sources</div><ul class="sources"><li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9130158/">Mignot, Schunke, Sinding and Hummel, Olfactory adaptation: recordings from the human olfactory epithelium, Eur Arch Otorhinolaryngol 2021</a></li><li><a href="https://link.springer.com/article/10.3758/BF03213109">Dalton and Wysocki, The nature and duration of adaptation following long-term odor exposure, Perception and Psychophysics 1996</a></li><li><a href="https://academic.oup.com/chemse/article/25/4/487/342753">Dalton, Psychophysical and behavioral characteristics of olfactory adaptation, Chemical Senses 2000</a></li></ul>
+</article><article id="l2">
+<div class="kicker"><span>Two bottles</span><span>Both forearms</span><span>Calibration</span></div>
+<h2 class="title">Nothing is decided in the first ten minutes</h2>
+<p class="dek">A complete bottle on one arm and an open one on the other, read at the same clock times. The point is to watch two evaporation curves diverge, and to see how little the opening predicted about either.</p>
+<div class="metastrip"><span><b>2</b> bottles</span><span><b>2</b> forearms</span><span><b>4 h</b> of readings</span></div>
+<div class="sechead" id="l2-sA"><span class="seclet">A</span><h3>Before you start</h3></div>
+<ul class="need"><li>Trudon II on the left forearm, Bois d Ebene on the right. Two sprays each, same distance, within a minute of each other so the clocks line up.</li><li>Alarms at 0:10, 1:00 and 4:00.</li><li>Optional and better: a second person sprays the arms and does not tell you which is which. You find out at hour four.</li></ul>
+<div class="sechead" id="l2-sB"><span class="seclet">B</span><h3>The clock: what to read, and when</h3></div>
+<p class="secnote">Set alarms. A reading taken when you happen to notice the scent over-samples the loud moments.</p>
+<table class="clock"><tr><th>Time</th><th>What is happening</th><th>What to write</th></tr>
+<tr><td class="k">0:10</td><td>Both openings. Alcohol gone, the most volatile materials still loud: green leaves and bitter orange on one arm, juniper on the other.</td><td>One word for each arm.</td></tr>
+<tr><td class="k">1:00</td><td>Hearts. Cedar and pepper against palo santo. The complete one should still read from arm's length.</td><td>One line each, and which is louder.</td></tr>
+<tr><td class="k">4:00</td><td>Drydowns. Incense and ambroxan against patchouli and cypriol. This is the reading the lesson exists for.</td><td>Which is still legible? What is left of each? If run blind, now guess which is which.</td></tr>
+</table>
+<div class="sechead" id="l2-sC"><span class="seclet">C</span><h3>Steps</h3></div>
+<div class="step" id="l2-s1"><div class="shead"><span class="num">1</span><h5>Both arms, same amount, same minute</h5></div>
+<p>Trudon II left, Bois d Ebene right, two sprays each.</p>
+<div class="box watch"><span class="bh">Watch for: Cross-contamination</span>Keep the wrists apart for the first hour. Crossed arms on a desk is how two experiments become one.</div>
+</div>
+<div class="step" id="l2-s2"><div class="shead"><span class="num">2</span><h5>Smell A, then B, then A again</h5></div>
+<p>At each clock time, smell the left arm, then the right, then the left again, before writing. The second pass at A is where the difference shows.</p>
+<div class="box why"><span class="bh">Why comparison beats judgment</span>Discrimination and identification run on different memory systems: telling two things apart uses working memory and is fast; naming one thing alone uses long-term semantic memory and is slow (Royet et al. 2013). Every professional method, from Carles's ratio pairs to a factory's retained reference batch, judges against an anchor rather than in isolation. Coming back to A after B makes A's character stand out against B in a way one sniff of A never does.</div>
+<div class="box watch"><span class="bh">Watch for: The adapted nose</span>By hour four you are adapted to both. Smell a clean patch of skin, or the inside of your sleeve, for ten seconds between arms. That is untested folklore as a reset, but it costs nothing; coffee beans are tested and do nothing (Grosofsky et al. 2011).</div>
+</div>
+<div class="step" id="l2-s3"><div class="shead"><span class="num">3</span><h5>The four-hour reading</h5><span class="when">4:00</span></div>
+<p>Write which arm is still legible from a normal distance and what is left of it. Compare to your 0:10 words. How much of what you wrote at ten minutes survived?</p>
+<div class="box why"><span class="bh">Why the opening lies</span>Measured on skin, everything is evaporating from minute zero at its own rate, set by vapour pressure rather than by weight: over seven hours linalool was 68 percent gone and cinnamic alcohol 4 percent gone, although the second is the lighter molecule (Saiyasombati and Kasting 2003). The opening is whatever has the highest vapour pressure, which is also whatever is gone first. Judging a perfume at ten minutes is judging the part that is leaving.</div>
+</div>
+<div class="step" id="l2-s4"><div class="shead"><span class="num">4</span><h5>If you ran it blind, reveal now</h5></div>
+<p>Ask your second nose which arm was which. If you guessed wrong, that is the most useful result of the day: it means the drydowns had converged enough that the names in your head, not the smell on your arm, were doing the work.</p>
+<div class="box why"><span class="bh">Why blind matters</span>Expectation overrides even trained noses. Given a white wine dyed red, 54 oenology students described it in the vocabulary of red wine (Morrot et al. 2001). Labels change what you say about a smell; they do not change what you can discriminate (Cormiea and Fischer 2023). Running blind protects the description.</div>
+</div>
+<div class="sechead" id="l2-sD"><span class="seclet">D</span><h3>Prediction, then result</h3></div>
+<div id="rec-l2" data-n="2" data-predict="Which of the two is still legible at hour four, and what will be left of it? Write it in materials, not adjectives."></div>
+<div class="srchead">Sources</div><ul class="sources"><li><a href="https://onlinelibrary.wiley.com/doi/10.1046/j.1467-2494.2003.00194.x">Saiyasombati and Kasting, Two-stage kinetic analysis of fragrance evaporation and absorption from skin, Int J Cosmetic Science 2003</a></li><li><a href="https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2013.00928/full">Royet et al., The impact of expertise in olfaction, Frontiers in Psychology 2013</a></li><li><a href="https://journals.sagepub.com/doi/10.2466/24.PMS.112.2.536-538">Grosofsky, Haupert and Versteeg, An exploratory investigation of coffee and lemon scents and odor identification, Perceptual and Motor Skills 2011</a></li><li><a href="https://www.sciencedirect.com/science/article/abs/pii/S0093934X01924939">Morrot, Brochet and Dubourdieu, The color of odors, Brain and Language 2001</a></li><li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9889793/">Cormiea and Fischer, Odor discrimination is immune to the effects of verbal labels, Scientific Reports 2023</a></li><li><a href="https://shop.perfumersapprentice.com/perfumersworkshop/carles1.pdf">Jean Carles, A method of creation in perfumery, 1961 (PDF)</a></li></ul>
+</article><article id="l3">
+<div class="kicker"><span>Two bottles</span><span>Both forearms</span><span>Calibration</span></div>
+<h2 class="title">One idea, loudly</h2>
+<p class="dek">Two compositions that are each close to a single idea, so you can hear what one material does before you have to find it inside something that is not about it. This is the scales exercise, and Carles said perfumers should practise scales like concert pianists.</p>
+<div class="metastrip"><span><b>2</b> bottles</span><span><b>1</b> word each</span><span><b>4 h</b> of readings</span></div>
+<div class="sechead" id="l3-sA"><span class="seclet">A</span><h3>Before you start</h3></div>
+<ul class="need"><li>Vetiver 46 on one forearm: smoky vetiver with olibanum and pepper.</li><li>Wonderwood on the other: a wood overdose of cedar, cypress, guaiac and sandalwood.</li><li>A word budget of one per arm per reading. Not a sentence.</li><li>For step 3, after the four-hour reading: Moonlark Ash, Victrix, Trudon II or Fuego Futuro to hand, all of which carry vetiver or cedar in the base.</li></ul>
+<div class="sechead" id="l3-sB"><span class="seclet">B</span><h3>The clock: what to read, and when</h3></div>
+<p class="secnote">Set alarms. A reading taken when you happen to notice the scent over-samples the loud moments.</p>
+<table class="clock"><tr><th>Time</th><th>What is happening</th><th>What to write</th></tr>
+<tr><td class="k">0:30</td><td>Both are past the opening. On one arm the vetiver has arrived; on the other the cypress and cedar.</td><td>One word for each. Not a sentence.</td></tr>
+<tr><td class="k">2:00</td><td>Both hearts. The olibanum is showing on one arm; the guaiac on the other.</td><td>One word again. Same word as 0:30?</td></tr>
+<tr><td class="k">4:00</td><td>Drydowns. Labdanum and amber under the vetiver; sandalwood and patchouli under the cedar.</td><td>One word. Then step 3.</td></tr>
+</table>
+<div class="sechead" id="l3-sC"><span class="seclet">C</span><h3>Steps</h3></div>
+<div class="step" id="l3-s1"><div class="shead"><span class="num">1</span><h5>One word, not a description</h5></div>
+<p>At each clock time, write one word for each arm. If you cannot get it to one word, you have not found the idea yet; wait a minute on clean skin and smell again.</p>
+<div class="box why"><span class="bh">Why one word</span>A specific name is what makes a material findable later. People given a specific name for an odour recalled it correctly around 80 to 90 percent of the time; a vague one dropped that to about half (Cain, as reported in the identification literature). Describing in a sentence feels like understanding and leaves nothing you can recognise next week inside another bottle.</div>
+<div class="box watch"><span class="bh">Watch for: Borrowing the marketing note</span>Smoky, woody and dry are the words on the box. Aim for a word that is yours: burnt rope, pencil shavings, church, sauna bench. Precision, not poetry.</div>
+</div>
+<div class="step" id="l3-s2"><div class="shead"><span class="num">2</span><h5>Same word at four hours?</h5><span class="when">4:00</span></div>
+<p>Compare the three words per arm. If they changed, the material you named at 0:30 was not the dominant one; it was the loudest one at that moment.</p>
+<div class="box why"><span class="bh">Why the word drifts</span>Different materials habituate at different rates, and the rate is set by their volatility and potency rather than their family (Sinding et al. 2017). The one you can still name at four hours is the one that is actually running the composition.</div>
+</div>
+<div class="step" id="l3-s3"><div class="shead"><span class="num">3</span><h5>Find the same material somewhere else</h5></div>
+<p>After the four-hour reading, spray one of Moonlark Ash, Victrix, Trudon II or Fuego Futuro on the back of a hand and look for the word you wrote. Vetiver is in the base of the first two; cedar in the last two.</p>
+<div class="box why"><span class="bh">Why this is the whole method</span>Naming a material alone and then finding it inside a composition is how noses are trained at Givaudan, where first-year students memorise roughly five hundred materials in four to seven months and then spend a year on how they combine (Nez). You are doing the same thing with two materials and a small shelf.</div>
+<div class="box watch"><span class="bh">Watch for: Expecting it to be obvious</span>Inside a composition the same material is a tenth as loud and surrounded. You are listening for a shape, not a volume. If you cannot find it, smell the reference arm again and go back; the pair, A then B then A, is the tool.</div>
+</div>
+<div class="sechead" id="l3-sD"><span class="seclet">D</span><h3>Prediction, then result</h3></div>
+<div id="rec-l3" data-n="3" data-predict="Which of the two will you still be able to describe in one word at hour four, and what word?"></div>
+<div class="srchead">Sources</div><ul class="sources"><li><a href="https://shop.perfumersapprentice.com/perfumersworkshop/carles1.pdf">Jean Carles, A method of creation in perfumery, 1961 (PDF)</a></li><li><a href="https://www.nature.com/articles/srep41047">Sinding et al., New determinants of olfactory habituation, Scientific Reports 2017</a></li><li><a href="https://mag.bynez.com/en/reports/olfactory-education-how-to-cultivate-your-nose/where-to-train-as-a-perfumer/">Where to train as a perfumer, Nez magazine</a></li><li><a href="https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2013.00928/full">Royet et al., The impact of expertise in olfaction, Frontiers in Psychology 2013</a></li></ul>
+</article><article id="l4">
+<div class="kicker"><span>At Ingredients</span><span>Two molecules</span><span>Calibration</span></div>
+<h2 class="title">Can you smell Iso E Super at all</h2>
+<p class="dek">Molecule 01 is Iso E Super alone; Molecule 02 is ambroxan alone, which is already in the base of Trudon II. One arm each. The result can close a route rather than open one, and that is why it is here early.</p>
+<div class="metastrip"><span><b>1</b> shop visit</span><span><b>2</b> single molecules</span><span><b>1 h</b> minimum, outside</span></div>
+<div class="sechead" id="l4-sA"><span class="seclet">A</span><h3>Before you start</h3></div>
+<ul class="need"><li>Nothing else on your skin that morning. No scented soap, no other perfume. Your own perfume measurably lowers your ability to smell anything else (Beekman et al. 2022).</li><li>Ingredients, Vezenska 4. Ask for Molecule 01 on one forearm and Molecule 02 on the other.</li><li>An hour of not buying anything, most of it outside the shop.</li></ul>
+<div class="sechead" id="l4-sB"><span class="seclet">B</span><h3>The clock: what to read, and when</h3></div>
+<p class="secnote">Set alarms. A reading taken when you happen to notice the scent over-samples the loud moments.</p>
+<table class="clock"><tr><th>Time</th><th>What is happening</th><th>What to write</th></tr>
+<tr><td class="k">0:05</td><td>Both are quiet by design. Read this on the street, not in the shop.</td><td>Can you smell each at all? Yes, faint, or no.</td></tr>
+<tr><td class="k">1:00</td><td>Iso E Super is reported to come and go on some people; ambroxan tends to sit.</td><td>Same three-way answer, both arms. Then the fork.</td></tr>
+</table>
+<div class="sechead" id="l4-sC"><span class="seclet">C</span><h3>Steps</h3></div>
+<div class="step" id="l4-s1"><div class="shead"><span class="num">1</span><h5>Spray, then walk out</h5></div>
+<p>Get both on, then leave. Read them on the street at five minutes and somewhere calm at an hour.</p>
+<div class="box watch"><span class="bh">Watch for: Reading it in the shop</span>Everything in the room is louder than what is on your arm. The five-minute reading is outside or it is worthless.</div>
+</div>
+<div class="step" id="l4-s2"><div class="shead"><span class="num">2</span><h5>Three answers, not a description</h5></div>
+<p>For each arm at each time: yes, faint, or no. This is a test of your receptors, not of your taste.</p>
+<div class="box why"><span class="bh">Why this is a test of you</span>Specific anosmia, being unable to smell one particular material while smelling everything else normally, is common, inherited and molecule-specific. For musks it has been known since 1973, when about one in twelve subjects tested could not smell exaltolide (Whissell-Buechy and Amoore, Nature). The share of people blind to Iso E Super is widely quoted at about a fifth, but that figure circulates in industry blogs without a traceable study behind it; treat it as folklore with a real phenomenon underneath. Two things from 2025 are not folklore. The receptor for Iso E Super's active isomer has been identified as OR7A17 (Emter et al., Current Biology), and the receptor for ambroxan has been identified as OR7A17 as well (Takase et al., Communications Biology), with non-functional versions of it common in some populations. So your two arms may be one test, not two: if 01 is nothing on you, read 02 closely, and if 02 is fine, Trudon II's base explains itself. And in a laboratory test of repeated exposure, Iso E Super was the one odorant whose rated intensity did not decline (Mignot et al. 2021). Its maker describes it coming and going over minutes to an hour on the same person; that is his account, not a measurement. If it vanishes for you entirely, that is your receptors, not adaptation.</div>
+<div class="box watch"><span class="bh">Watch for: Calling faint a no</span>Faint is an answer. Iso E Super is faint on nearly everyone who can smell it; that is the whole point of it.</div>
+</div>
+<div class="step" id="l4-s3"><div class="shead"><span class="num">3</span><h5>What a fixative does, in one sentence</h5></div>
+<p>If you can smell either, notice that it has almost no character. That absence is the tool.</p>
+<div class="box why"><span class="bh">Why a near-odourless molecule is useful, and the dissent</span>A fixative lowers the overall vapour pressure of a mixture and slows the volatile materials down. On skin, a musk fixative measurably depressed the early evaporation of the most volatile top notes, linalool and limonene, and released them later (Saiyasombati and Kasting 2003). So a fixative does not just make the base last; it makes the opening last. Trudon II runs on ambroxan and cashmeran in the base for that reason. Two dissents are worth keeping. Jellinek, co-author of the standard perfumery textbook, is reported to have concluded that fixatives work on a blotter and cannot be expected to do much in ordinary wear; that is a secondhand quote, but from the right person. And an experienced Basenotes poster argues that adding ambroxan to another perfume only increases the projection of ambroxan, so what reads as a boost is two clouds overlapping. The measurement on skin is the stronger evidence, but lesson 13 lets you check the dissent on your own wrist.</div>
+</div>
+<div class="sechead" id="l4-sD"><span class="seclet">D</span><h3>Prediction, then result</h3></div>
+<p class="secnote">Where this splits. The result decides which branch you are on.</p>
+<div class="fork"><div><span>One way</span>If 01 reads as nothing on you, the universal-blender route is shut. Read 02 carefully before assuming ambroxan is fine, since the two may share a receptor; if 02 is clear, every fixative move later runs on it and you already wear it daily.</div><div><span>The other</span>If it reads clearly, you have a tool that adds body and time without adding a smell, and the open question becomes whether a pure synthetic belongs in a collection you built on the opposite principle. Your daily bottle's base suggests it already does.</div></div>
+<div id="rec-l4" data-n="4" data-predict="Do you expect to smell 01 on your own arm at hour one? Yes, faint, or no."></div>
+<div class="srchead">Sources</div><ul class="sources"><li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9130158/">Mignot, Schunke, Sinding and Hummel, Olfactory adaptation: recordings from the human olfactory epithelium, Eur Arch Otorhinolaryngol 2021</a></li><li><a href="https://onlinelibrary.wiley.com/doi/10.1046/j.1467-2494.2003.00194.x">Saiyasombati and Kasting, Two-stage kinetic analysis of fragrance evaporation and absorption from skin, Int J Cosmetic Science 2003</a></li><li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8834429/">Beekman et al., Should panelists refrain from wearing a personal fragrance prior to sensory evaluation?, Foods 2022</a></li><li><a href="https://www.nature.com/articles/242271a0">Whissell-Buechy and Amoore, Odour-blindness to musk: simple recessive inheritance, Nature 1973</a></li><li><a href="https://pubmed.ncbi.nlm.nih.gov/41075782/">Emter et al. (Givaudan), Decoding human olfaction by high heterologous expression of odorant receptors detecting signature odorants, Current Biology 2025</a></li><li><a href="https://www.nature.com/articles/s42003-025-08229-y">Takase, Matsunami et al., An odorant receptor for a key odor constituent of ambergris, Communications Biology 2025</a></li><li><a href="https://pubmed.ncbi.nlm.nih.gov/36625229/">Genetic variation in the human olfactory receptor OR5AN1 associates with the perception of musks, PNAS 2023</a></li><li><a href="https://basenotes.com/">Would layering Molecule 02 to ambroxan based scents give insane projection?, Basenotes thread (search-summary only; direct fetch blocked)</a></li><li><a href="https://www.cafleurebon.com/">Geza Schoen interview, CaFleureBon (Escentric Molecules anniversary piece)</a></li></ul>
+</article><article id="l5">
+<div class="kicker"><span>Two zones</span><span>Two greens</span><span>Open under complete</span></div>
+<h2 class="title">Two things that agree</h2>
+<p class="dek">Moss on one patch of skin, Trudon II on another nearby, sharing the air. Both are green and mossy, so most of what they contain is the same thing said twice, and the lesson is what that does.</p>
+<div class="metastrip"><span><b>2</b> bottles</span><span><b>2</b> zones</span><span><b>4 h</b> of readings</span></div>
+<div class="sechead" id="l5-sA"><span class="seclet">A</span><h3>Before you start</h3></div>
+<ul class="need"><li>Moss, one spray on the inside of the left wrist. Trudon II, one spray on the left forearm a hand's width above it. Two zones, one arm, sharing the air.</li><li>Trudon II alone, one spray, on the right forearm. This is the control.</li><li>One spray each, not two. When you combine, halve the dose.</li></ul>
+<div class="sechead" id="l5-sB"><span class="seclet">B</span><h3>The clock: what to read, and when</h3></div>
+<p class="secnote">Set alarms. A reading taken when you happen to notice the scent over-samples the loud moments.</p>
+<table class="clock"><tr><th>Time</th><th>What is happening</th><th>What to write</th></tr>
+<tr><td class="k">0:30</td><td>Two openings sharing the air: green leaves and grapefruit against pine and bitter orange.</td><td>Louder, or different? Compare the pair arm to the control arm.</td></tr>
+<tr><td class="k">2:00</td><td>Two hearts that overlap: cedar, pine and pepper on both.</td><td>Name one thing gained, one thing lost, against the control.</td></tr>
+<tr><td class="k">4:00</td><td>Drydowns merged in the air: oakmoss and musk under incense and ambroxan.</td><td>Would you wear the pair over Trudon II alone?</td></tr>
+</table>
+<div class="sechead" id="l5-sC"><span class="seclet">C</span><h3>Steps</h3></div>
+<div class="step" id="l5-s1"><div class="shead"><span class="num">1</span><h5>Two zones, not one spot</h5></div>
+<p>Moss on the wrist, Trudon II a hand's width up the same arm. They never touch the same skin; they mix in the air above it.</p>
+<div class="box why"><span class="bh">Why not the same spot</span>The commercial advice is to spray one over the other. The practitioners who have actually tested it say otherwise: a perfumer at CaFleureBon recommends applying at different locations and letting the fragrances commingle in the air, and Parfumo users who ran the same pair both ways found the same-spot version cancelled notes, especially citrus, while side by side blended. The mechanism is plausible: on one spot the second spray partly dissolves and covers the first, so you get one evaporation curve sitting on top of another rather than two beside each other. Lesson 7 tests this directly. Until then, zones.</div>
+<div class="box watch"><span class="bh">Watch for: Zones too far apart</span>A wrist and an elbow is two perfumes. A wrist and a hand's width up is one cloud.</div>
+</div>
+<div class="step" id="l5-s2"><div class="shead"><span class="num">2</span><h5>One spray each</h5></div>
+<p>Halve the dose when you combine.</p>
+<div class="box why"><span class="bh">Why halve</span>A Basenotes thread on whether layering is a myth lands on the obvious point: people notice increased performance when layering because they are wearing twice as much perfume. Two sprays of each is four sprays. Keep the total constant and the comparison to the control arm is honest.</div>
+</div>
+<div class="step" id="l5-s3"><div class="shead"><span class="num">3</span><h5>Trudon II alone on the other arm</h5></div>
+<p>One spray of Trudon II on the right forearm at the same time. Pair on the left, control on the right.</p>
+<div class="box watch"><span class="bh">Watch for: Skipping the control</span>Without Trudon II alone beside it, louder and better are indistinguishable. Louder is the expected result here.</div>
+</div>
+<div class="step" id="l5-s4"><div class="shead"><span class="num">4</span><h5>Gain and loss, in writing</h5><span class="when">2:00</span></div>
+<p>Name one thing the pair has that Trudon II alone does not, and one thing it has lost. If you cannot name a gain, that is the finding.</p>
+<div class="box why"><span class="bh">Why this pair is in the course</span>Overlapping materials add concentration rather than a dimension. Moss and Trudon II share cedar, pine, pepper and a green top; the pair is mostly the same idea at a higher dose. Perfumers interviewed about layering say the same from the other side: if a perfume is already complex, layering another on top becomes overwhelming, and simple single-theme compositions benefit most (CaFleureBon 2021). Finding the words for louder versus deeper now is what makes the later pairs readable.</div>
+</div>
+<div class="sechead" id="l5-sD"><span class="seclet">D</span><h3>Prediction, then result</h3></div>
+<div id="rec-l5" data-n="5" data-predict="Name the one thing you expect to gain, and the one thing you expect to lose, against Trudon II alone."></div>
+<div class="srchead">Sources</div><ul class="sources"><li><a href="https://cafleurebon.com/">Perfumer workshop: layering natural fragrances, part 1, CaFleureBon, June 2021</a></li><li><a href="https://cafleurebon.com/">Perfumers workshop: layering perfumes, part 2, CaFleureBon, July 2021</a></li><li><a href="https://www.parfumo.de/">Dufte richtig layern, Parfumo.de forum; and Cimi, Parfumo.de blog, November 2024</a></li><li><a href="https://nstperfume.com/">Robin, Perfumista tip: on perfume layering, Now Smell This, December 2007</a></li></ul>
+</article><article id="l6">
+<div class="kicker"><span>Two zones</span><span>Different jobs</span><span>Open under complete</span></div>
+<h2 class="title">Powder under smoke</h2>
+<p class="dek">Dry powdery wood on the wrist, smoke and hay a hand's width above. The first pair where the two bottles are doing different jobs instead of the same job twice, and the first that should read as deeper rather than louder.</p>
+<div class="metastrip"><span><b>2</b> bottles</span><span><b>2</b> roles</span><span><b>6 h</b> of readings</span></div>
+<div class="sechead" id="l6-sA"><span class="seclet">A</span><h3>Before you start</h3></div>
+<ul class="need"><li>Bois d Ebene, one spray on the left wrist. Fuego Futuro, one spray a hand's width up the left forearm.</li><li>Fuego Futuro alone, one spray, on the right forearm as the control.</li></ul>
+<div class="sechead" id="l6-sB"><span class="seclet">B</span><h3>The clock: what to read, and when</h3></div>
+<p class="secnote">Set alarms. A reading taken when you happen to notice the scent over-samples the loud moments.</p>
+<table class="clock"><tr><th>Time</th><th>What is happening</th><th>What to write</th></tr>
+<tr><td class="k">0:30</td><td>Fuego's elemi, mate and pepper in the air above the juniper of the base.</td><td>Does the powder show yet, or is it all Fuego?</td></tr>
+<tr><td class="k">2:00</td><td>Smoke, hay and sage; palo santo and guaiac underneath.</td><td>Texture, or dilution? Compare to the control arm.</td></tr>
+<tr><td class="k">6:00</td><td>Ash, cedar and sandalwood with patchouli and cypriol.</td><td>Gain, loss, and would you wear the pair over Fuego Futuro alone?</td></tr>
+</table>
+<div class="sechead" id="l6-sC"><span class="seclet">C</span><h3>Steps</h3></div>
+<div class="step" id="l6-s1"><div class="shead"><span class="num">1</span><h5>Powder down, smoke above</h5></div>
+<p>Bois d Ebene on the wrist, Fuego Futuro above it. The powdery one is a surface rather than a smell, which is why it can sit near a loud one without arguing with it.</p>
+<div class="box why"><span class="bh">Why powder does not argue</span>Powdery materials read as a texture rather than a note: they change how a scent feels without adding a competing idea. That is what a base is for. This is the pair the perfumers' rule predicts should work: one simple, one complex, different jobs (CaFleureBon 2021).</div>
+</div>
+<div class="step" id="l6-s2"><div class="shead"><span class="num">2</span><h5>Read for texture at two hours</h5><span class="when">2:00</span></div>
+<p>Ask one question: does the powder read as texture under the smoke, or as dilution of it? Those are the two outcomes and they feel different.</p>
+<div class="box why"><span class="bh">Why the distinction matters</span>Dilution is what you get when the base has nothing of its own to contribute; the top bottle is simply quieter. Texture is what you get when the base has a surface: the top bottle is the same volume and a different shape. Smell the control arm between passes; the difference is only visible against it.</div>
+<div class="box watch"><span class="bh">Watch for: Calling dilution smooth</span>A pair that is merely quieter than the top bottle alone has been diluted. Smooth is a texture you can point to; quieter is a volume.</div>
+</div>
+<div class="step" id="l6-s3"><div class="shead"><span class="num">3</span><h5>Six hours: who is left</h5><span class="when">6:00</span></div>
+<p>By now the elemi and mate are long gone and the two drydowns are what remain: ash and cedar from one, patchouli and cypriol from the other. Is that one thing or two?</p>
+<div class="box why"><span class="bh">Why six hours is a different question</span>The two bottles have different vapour-pressure profiles, so the pair at six hours is a different pair from the one at two. A layering can work at one clock time and not another; the honest verdict says which.</div>
+</div>
+<div class="sechead" id="l6-sD"><span class="seclet">D</span><h3>Prediction, then result</h3></div>
+<div id="rec-l6" data-n="6" data-predict="Does the powder read as texture under the smoke, or as dilution of it, at two hours?"></div>
+<div class="srchead">Sources</div><ul class="sources"><li><a href="https://cafleurebon.com/">Perfumer workshop: layering natural fragrances, part 1, CaFleureBon, June 2021</a></li><li><a href="https://onlinelibrary.wiley.com/doi/10.1046/j.1467-2494.2003.00194.x">Saiyasombati and Kasting, Two-stage kinetic analysis of fragrance evaporation and absorption from skin, Int J Cosmetic Science 2003</a></li></ul>
+</article><article id="l7">
+<div class="kicker"><span>Three placements</span><span>One day</span><span>Open under complete</span></div>
+<h2 class="title">Order and distance</h2>
+<p class="dek">The same pair as the last lesson, three ways at once: on the same spot, in two zones, and split between cloth and skin. Three variables people collapse into one, run side by side so you never confuse them again.</p>
+<div class="metastrip"><span><b>2</b> bottles</span><span><b>3</b> placements</span><span><b>6 h</b> of readings</span></div>
+<div class="sechead" id="l7-sA"><span class="seclet">A</span><h3>Before you start</h3></div>
+<ul class="need"><li>Left forearm, same spot: Bois d Ebene first, then Fuego Futuro directly over it a minute later.</li><li>Right forearm, two zones: Bois d Ebene on the wrist, Fuego Futuro a hand's width up, as in lesson 6.</li><li>Shirt cuff: Bois d Ebene on the fabric, Fuego Futuro on the skin just below it. They never touch.</li><li>One spray of each per placement. Six sprays in total, which is a lot; do this on a day at home.</li></ul>
+<div class="sechead" id="l7-sB"><span class="seclet">B</span><h3>The clock: what to read, and when</h3></div>
+<p class="secnote">Set alarms. A reading taken when you happen to notice the scent over-samples the loud moments.</p>
+<table class="clock"><tr><th>Time</th><th>What is happening</th><th>What to write</th></tr>
+<tr><td class="k">0:30</td><td>Three openings. The same-spot arm should read as one thing; the zoned arm as a cloud.</td><td>Which arm is louder? Which is more Fuego? Which is more Bois?</td></tr>
+<tr><td class="k">2:00</td><td>The placement should show by now.</td><td>Left versus right: what is different? Cloth versus skin: what is different?</td></tr>
+<tr><td class="k">6:00</td><td>Cloth still holds; skin has warmed and metabolised.</td><td>Which of the three would you still wear?</td></tr>
+</table>
+<div class="sechead" id="l7-sC"><span class="seclet">C</span><h3>Steps</h3></div>
+<div class="step" id="l7-s1"><div class="shead"><span class="num">1</span><h5>Same spot on the left</h5></div>
+<p>Bois d Ebene on the skin, wait a minute, Fuego Futuro directly over it.</p>
+<div class="box why"><span class="bh">Why order shows on one spot</span>The second spray lands on a surface already wet with the first and partly dissolves into it, so it meets the air first and covers what is underneath. Practitioners report that the last one sprayed usually overpowers the other (Basenotes) and that same-spot stacking cancels notes rather than blending them (Parfumo). You are checking that on your own skin.</div>
+</div>
+<div class="step" id="l7-s2"><div class="shead"><span class="num">2</span><h5>Two zones on the right</h5></div>
+<p>Bois d Ebene on the wrist, Fuego Futuro above it. This is lesson 6 again, as the reference.</p>
+</div>
+<div class="step" id="l7-s3"><div class="shead"><span class="num">3</span><h5>Cloth and skin at the cuff</h5></div>
+<p>Bois d Ebene on the shirt cuff, Fuego Futuro on the skin just under it.</p>
+<div class="box why"><span class="bh">Why cloth is a different instrument</span>Cloth has none of the skin's heat, sebum or bacteria, so the scent on it stays closer to what is in the bottle and lasts longer; that is an inference from textile science, not a fragrance study, and it is treated as one here. Skin at 34 degrees drives the volatile materials off faster and its lipids hold the oil-loving ones (Saiyasombati and Kasting 2003). Delacourte calls paper one-dimensional and skin three-dimensional; cloth sits between.</div>
+</div>
+<div class="step" id="l7-s4"><div class="shead"><span class="num">4</span><h5>Write the three-way verdict at two hours</h5><span class="when">2:00</span></div>
+<p>Three lines: what the same-spot version is, what the zoned version is, what the cuff version is. Then which you would wear at six.</p>
+<div class="box watch"><span class="bh">Watch for: Six sprays on one body</span>You are adapted to all of it by hour two. Ask your second nose to read the three placements from a normal distance. This is the lesson where a second nose matters most.</div>
+</div>
+<div class="sechead" id="l7-sD"><span class="seclet">D</span><h3>Prediction, then result</h3></div>
+<div id="rec-l7" data-n="7" data-predict="Which of the three placements will you still be willing to wear at hour six, and which one will read as two perfumes rather than one?"></div>
+<div class="srchead">Sources</div><ul class="sources"><li><a href="https://www.parfumo.de/">Dufte richtig layern, Parfumo.de forum; and Cimi, Parfumo.de blog, November 2024</a></li><li><a href="https://onlinelibrary.wiley.com/doi/10.1046/j.1467-2494.2003.00194.x">Saiyasombati and Kasting, Two-stage kinetic analysis of fragrance evaporation and absorption from skin, Int J Cosmetic Science 2003</a></li><li><a href="https://blog.delacourte.com/en/testing-a-perfume/">Sylvaine Delacourte, Testing a perfume (blog)</a></li><li><a href="https://cafleurebon.com/">Perfumers workshop: layering perfumes, part 2, CaFleureBon, July 2021</a></li></ul>
+</article><article id="l8">
+<div class="kicker"><span>Two open bottles</span><span>Two zones</span><span>Open plus open</span></div>
+<h2 class="title">Two quiet ones</h2>
+<p class="dek">Petrichor Plains on the wrist, Citrus Batikanga above it. Rain, iris and violet against chilli, rhubarb and cardamom. Neither says much alone, and there is no complete bottle to lean on, so the result is entirely the pair's.</p>
+<div class="metastrip"><span><b>2</b> bottles</span><span><b>0</b> complete ones</span><span><b>6 h</b> of readings</span></div>
+<div class="sechead" id="l8-sA"><span class="seclet">A</span><h3>Before you start</h3></div>
+<ul class="need"><li>Petrichor Plains, one spray on the left wrist. Citrus Batikanga, one spray a hand's width up the left forearm.</li><li>Nothing on the right arm. There is no complete bottle here to control against; your memory of each alone from earlier wearings is the control.</li></ul>
+<div class="sechead" id="l8-sB"><span class="seclet">B</span><h3>The clock: what to read, and when</h3></div>
+<p class="secnote">Set alarms. A reading taken when you happen to notice the scent over-samples the loud moments.</p>
+<table class="clock"><tr><th>Time</th><th>What is happening</th><th>What to write</th></tr>
+<tr><td class="k">0:30</td><td>Bergamot and cardamom in the air over rain and iris.</td><td>Is there a shape yet, or two smells?</td></tr>
+<tr><td class="k">2:00</td><td>Chilli and rhubarb over violet and rosemary.</td><td>Does the spice give the rain a shape, or sit on it?</td></tr>
+<tr><td class="k">6:00</td><td>Vetiver, myrrh and fenugreek over amyris and buddawood.</td><td>Gain, loss, and would you wear it?</td></tr>
+</table>
+<div class="sechead" id="l8-sC"><span class="seclet">C</span><h3>Steps</h3></div>
+<div class="step" id="l8-s1"><div class="shead"><span class="num">1</span><h5>The quiet base</h5></div>
+<p>Petrichor Plains on the wrist. It has body and no strong direction of its own, which is what a base is for.</p>
+<div class="box why"><span class="bh">Why Petrichor Plains</span>Iris and cardamom run through several bottles you rated lower and through none you rated highly, which is worth knowing before you read this pair. But the bottle has weight without an argument, and that is the property being used. Perfumers put it the other way: simple compositions layer well; complex ones fight (CaFleureBon 2021).</div>
+</div>
+<div class="step" id="l8-s2"><div class="shead"><span class="num">2</span><h5>Spice above it</h5></div>
+<p>Citrus Batikanga a hand's width up. The spice is the statement; the rain is the room it is in.</p>
+<div class="box watch"><span class="bh">Watch for: Two perfumes side by side</span>If at two hours you can smell two things rather than one, they have not merged. Write that. It is the commonest result in layering and it is informative: it usually means the two share no material to meet on.</div>
+</div>
+<div class="step" id="l8-s3"><div class="shead"><span class="num">3</span><h5>Six hours: the drydowns meet or they do not</h5><span class="when">6:00</span></div>
+<p>Vetiver from one, amyris from the other. Both are woody, both are quiet. This is the reading most likely to have merged, because the loud, fast materials that kept them apart are gone.</p>
+<div class="box why"><span class="bh">Why late merges happen</span>The materials that make two perfumes read as two are the volatile ones, each with a strong character of its own. Once they have evaporated, what is left is base materials, which are fewer, slower and more alike across perfumes. A pair that reads as two at 0:30 and one at 6:00 is normal, and the honest verdict names the hour.</div>
+</div>
+<div class="sechead" id="l8-sD"><span class="seclet">D</span><h3>Prediction, then result</h3></div>
+<div id="rec-l8" data-n="8" data-predict="Does the spice give the rain a shape, or does it just sit on top of it, at two hours?"></div>
+<div class="srchead">Sources</div><ul class="sources"><li><a href="https://cafleurebon.com/">Perfumer workshop: layering natural fragrances, part 1, CaFleureBon, June 2021</a></li><li><a href="https://onlinelibrary.wiley.com/doi/10.1046/j.1467-2494.2003.00194.x">Saiyasombati and Kasting, Two-stage kinetic analysis of fragrance evaporation and absorption from skin, Int J Cosmetic Science 2003</a></li></ul>
+</article><article id="l9">
+<div class="kicker"><span>Two open bottles</span><span>Two zones</span><span>Open plus open</span></div>
+<h2 class="title">Rain and turpentine</h2>
+<p class="dek">Wet mineral on the wrist, sharp coniferous camphor above. Both leave room, but in different places: one is diffuse, the other is narrow. The lesson is learning to tell those two kinds of open apart.</p>
+<div class="metastrip"><span><b>2</b> bottles</span><span><b>2</b> directions</span><span><b>6 h</b> of readings</span></div>
+<div class="sechead" id="l9-sA"><span class="seclet">A</span><h3>Before you start</h3></div>
+<ul class="need"><li>Petrichor Plains, one spray on the left wrist. Monocle scent One: Hinoki, one spray a hand's width up.</li></ul>
+<div class="sechead" id="l9-sB"><span class="seclet">B</span><h3>The clock: what to read, and when</h3></div>
+<p class="secnote">Set alarms. A reading taken when you happen to notice the scent over-samples the loud moments.</p>
+<table class="clock"><tr><th>Time</th><th>What is happening</th><th>What to write</th></tr>
+<tr><td class="k">0:30</td><td>Turpentine and thyme in the air over rain.</td><td>Sharp over soft, or just sharp?</td></tr>
+<tr><td class="k">2:00</td><td>Cypress, camphor and vetiver over violet and rosemary.</td><td>Same direction, or different? Decide this before deciding whether you like it.</td></tr>
+<tr><td class="k">6:00</td><td>Moss and frankincense over sandalwood.</td><td>Gain, loss, wear it?</td></tr>
+</table>
+<div class="sechead" id="l9-sC"><span class="seclet">C</span><h3>Steps</h3></div>
+<div class="step" id="l9-s1"><div class="shead"><span class="num">1</span><h5>Name the direction before the verdict</h5><span class="when">2:00</span></div>
+<p>At two hours, before you decide whether you like it, decide which case this is: open in the same direction, so they thin each other, or in different ones, so they build.</p>
+<div class="box why"><span class="bh">Why direction comes first</span>Open is not one property. A diffuse bottle leaves room everywhere; a narrow one leaves room on both sides of a single line. Two narrow bottles on different lines can build; two diffuse ones cannot, they only dilute. Petrichor Plains is diffuse. Hinoki is narrow. If this pair builds, it is because the narrow one drew a line through the diffuse one. Liking comes after that diagnosis, or it tells you nothing you can reuse.</div>
+</div>
+<div class="step" id="l9-s2"><div class="shead"><span class="num">2</span><h5>Where the camphor goes</h5></div>
+<p>Camphor and turpentine are high vapour pressure; they will be gone by hour two. What does the pair look like without them?</p>
+<div class="box why"><span class="bh">Why this pair changes fast</span>Hinoki's character is carried by its most volatile materials, which is why you called it boring: the interesting part leaves in the first hour and the drydown is a plain conifer wood. Over Petrichor Plains, that first hour is the whole experiment; after it you are wearing a different pair.</div>
+<div class="box watch"><span class="bh">Watch for: Judging at six hours only</span>This is the one pair in the course where the 0:30 reading is the important one. Do not skip it.</div>
+</div>
+<div class="sechead" id="l9-sD"><span class="seclet">D</span><h3>Prediction, then result</h3></div>
+<div id="rec-l9" data-n="9" data-predict="Open in the same direction, or in different ones? And at which hour will the answer change?"></div>
+<div class="srchead">Sources</div><ul class="sources"><li><a href="https://onlinelibrary.wiley.com/doi/10.1046/j.1467-2494.2003.00194.x">Saiyasombati and Kasting, Two-stage kinetic analysis of fragrance evaporation and absorption from skin, Int J Cosmetic Science 2003</a></li><li><a href="https://www.nature.com/articles/srep41047">Sinding et al., New determinants of olfactory habituation, Scientific Reports 2017</a></li></ul>
+</article><article id="l10">
+<div class="kicker"><span>Two open bottles</span><span>Two zones</span><span>Open plus open</span></div>
+<h2 class="title">White flower over amber</h2>
+<p class="dek">Amber and smoke on the wrist, orange blossom above. One of the oldest moves in perfumery, and it works because the two are doing different jobs on different clocks rather than because they suit each other. Day two tries it as a relay.</p>
+<div class="metastrip"><span><b>2</b> bottles</span><span><b>2</b> days</span><span><b>1</b> classic move</span></div>
+<p class="borrowed">A borrowed Eau de Sens works here too and you rate the two about equally, so take whichever the day suggests and note which one you reached for.</p>
+<div class="sechead" id="l10-sA"><span class="seclet">A</span><h3>Before you start</h3></div>
+<ul class="need"><li>Day one, simultaneous: V Amber Fouguere, one spray on the left wrist. Fleur d'Oranger 27, one spray a hand's width up, a minute later.</li><li>Day two, relay: V Amber Fouguere alone in the morning, one spray on the left wrist. At hour three, Fleur d'Oranger 27 one spray a hand's width up, onto the amber's drydown.</li></ul>
+<div class="sechead" id="l10-sB"><span class="seclet">B</span><h3>The clock: what to read, and when</h3></div>
+<p class="secnote">Set alarms. A reading taken when you happen to notice the scent over-samples the loud moments.</p>
+<table class="clock"><tr><th>Time</th><th>What is happening</th><th>What to write</th></tr>
+<tr><td class="k">0:30</td><td>Day one: orange blossom and petitgrain in the air over black pepper and bergamot.</td><td>Which is on top? Obvious, but write it.</td></tr>
+<tr><td class="k">3:00</td><td>Day one: the blossom fading into frankincense and amber. Day two: this is when the blossom goes on.</td><td>Day one: which dominates now? Day two: what does fresh blossom do to a three-hour amber?</td></tr>
+<tr><td class="k">6:00</td><td>Vetiver, smoke and amber with whatever the blossom left.</td><td>Both days: gain, loss, wear it? Then compare the two days.</td></tr>
+</table>
+<div class="sechead" id="l10-sC"><span class="seclet">C</span><h3>Steps</h3></div>
+<div class="step" id="l10-s1"><div class="shead"><span class="num">1</span><h5>Day one: heavy on the wrist, light above</h5></div>
+<p>V Amber Fouguere first, Fleur d'Oranger 27 a minute later. The amber is heavier and slower; the blossom is lighter and faster. Put the slow one where it will be met last.</p>
+<div class="box why"><span class="bh">Why this pairing is old</span>A high vapour pressure floral over a low vapour pressure resinous base gives the pair a time structure of its own: the flower for the first hours, the amber for the rest. That is a pyramid built across two bottles, and it is why a Fragrantica advice column recommends a plain cologne as an uplift to something darker and heavier underneath. The heavier-first order is the one practitioners give (CaFleureBon 2021).</div>
+</div>
+<div class="step" id="l10-s2"><div class="shead"><span class="num">2</span><h5>Day one: read for dominance at three hours</h5><span class="when">3:00</span></div>
+<p>Which of the two is in charge now? The prediction was made about this moment.</p>
+<div class="box watch"><span class="bh">Watch for: Liking either one alone</span>Neither held your attention on its own. That is not the test here and it should not colour the reading.</div>
+</div>
+<div class="step" id="l10-s3"><div class="shead"><span class="num">3</span><h5>Day two: the relay</h5></div>
+<p>V Amber Fouguere alone in the morning. At hour three, when it has settled into frankincense and amber, add Fleur d'Oranger 27 above it. Read at 3:30 and 6:00.</p>
+<div class="box why"><span class="bh">Why a relay is different</span>A German enthusiast blogger describes a relay effect, spraying a complementary scent onto the fading drydown of the first rather than simultaneously, as working better than stacking two full compositions (Parfumo, November 2024); the Fragrantica column describes the same move for heavy orientals. The mechanism is the clock: at hour three the amber's own volatile materials are gone, so the blossom is landing on a base rather than on a competing opening.</div>
+</div>
+<div class="step" id="l10-s4"><div class="shead"><span class="num">4</span><h5>Compare the two days</h5></div>
+<p>Same two bottles, same doses, different timing. Which day did the pair read as one thing sooner? Which would you wear?</p>
+<div class="box why"><span class="bh">Why this comparison transfers</span>Timing is a layering variable in its own right, alongside order, zone and cloth. A pair that does not hold simultaneously may succeed as a relay, and knowing which of your bottles want a head start is half of composing with them.</div>
+</div>
+<div class="sechead" id="l10-sD"><span class="seclet">D</span><h3>Prediction, then result</h3></div>
+<div id="rec-l10" data-n="10" data-predict="Day one: which of the two will dominate at hour three? Day two: will fresh blossom on a three-hour amber read as one thing or two?"></div>
+<div class="srchead">Sources</div><ul class="sources"><li><a href="https://onlinelibrary.wiley.com/doi/10.1046/j.1467-2494.2003.00194.x">Saiyasombati and Kasting, Two-stage kinetic analysis of fragrance evaporation and absorption from skin, Int J Cosmetic Science 2003</a></li><li><a href="https://www.fragrantica.com/news/How-to-Layer-Fragrance-for-Maximum-Joy-and-Great-Effect-21542.html">How to layer fragrance for maximum joy and great effect, Fragrantica (advice column)</a></li><li><a href="https://www.parfumo.de/">Dufte richtig layern, Parfumo.de forum; and Cimi, Parfumo.de blog, November 2024</a></li><li><a href="https://cafleurebon.com/">Perfumer workshop: layering natural fragrances, part 1, CaFleureBon, June 2021</a></li></ul>
+</article><article id="l11">
+<div class="kicker"><span>One bottle</span><span>The day after</span><span>Open plus open</span></div>
+<h2 class="title">Someone already made this</h2>
+<p class="dek">Lys Solaberg alone: a lily on a smoky woody base. A professional's version of the pair you built the day before, composed rather than stacked, by a perfumer who keeps her own skin neutral to stay able to judge her work.</p>
+<div class="metastrip"><span><b>1</b> bottle</span><span><b>1</b> comparison</span><span><b>6 h</b> of readings</span></div>
+<div class="sechead" id="l11-sA"><span class="seclet">A</span><h3>Before you start</h3></div>
+<ul class="need"><li>Lys Solaberg, two sprays, one forearm, the day after lesson 10.</li><li>Lesson 10's readings open beside you.</li></ul>
+<div class="sechead" id="l11-sB"><span class="seclet">B</span><h3>The clock: what to read, and when</h3></div>
+<p class="secnote">Set alarms. A reading taken when you happen to notice the scent over-samples the loud moments.</p>
+<table class="clock"><tr><th>Time</th><th>What is happening</th><th>What to write</th></tr>
+<tr><td class="k">0:30</td><td>Wine lees, quince and bergamot.</td><td>Where is the lily? Write when you first find it.</td></tr>
+<tr><td class="k">2:00</td><td>Lily, dried fruit and iris over the first of the base.</td><td>What does this have that your stack did not?</td></tr>
+<tr><td class="k">6:00</td><td>Ambroxan, mate, oakmoss, tobacco, smoke, oak.</td><td>How much of this base is your own palette?</td></tr>
+</table>
+<div class="sechead" id="l11-sC"><span class="seclet">C</span><h3>Steps</h3></div>
+<div class="step" id="l11-s1"><div class="shead"><span class="num">1</span><h5>Read it against yesterday</h5><span class="when">2:00</span></div>
+<p>Same clock, same questions, and one more: what does the composed version have that your two-bottle version did not?</p>
+<div class="box why"><span class="bh">Why this bottle</span>Its base carries mate, which is in Fuego Futuro, and ambroxan, which is in Trudon II: most of your own palette under a flower. It also carries iris, which appears in nothing you have rated highly. It was made by Nathalie Feisthauer, who says that as a perfumer she wears less and less and keeps her skin neutral, so that she can still evaluate what she makes (CaFleureBon 2021). A composed floral over dark, by someone that careful, is the fastest way to find what stacking cannot reach.</div>
+</div>
+<div class="step" id="l11-s2"><div class="shead"><span class="num">2</span><h5>Where the flower and the smoke meet</h5></div>
+<p>At two hours, try to find the material that joins the lily to the base. It is probably not one you can name; that is the point.</p>
+<div class="box why"><span class="bh">Why a composition joins and a stack does not</span>A perfumer can put a bridge material in the middle of a formula that both halves share, at a ratio she has tested; Carles built every accord as a graded pair from nine to one down to five to five before adding anything else. Two finished bottles side by side have no such middle unless they happen to share a material. That is the edge of layering, and lesson 12 is where you try to put a bridge in by hand.</div>
+</div>
+<div class="sechead" id="l11-sD"><span class="seclet">D</span><h3>Prediction, then result</h3></div>
+<div id="rec-l11" data-n="11" data-predict="What does the composed version have that your stack did not? Name it in one material if you can, one sensation if you cannot."></div>
+<div class="srchead">Sources</div><ul class="sources"><li><a href="https://cafleurebon.com/">Perfumers workshop: layering perfumes, part 2, CaFleureBon, July 2021</a></li><li><a href="https://shop.perfumersapprentice.com/perfumersworkshop/carles1.pdf">Jean Carles, A method of creation in perfumery, 1961 (PDF)</a></li></ul>
+</article><article id="l12">
+<div class="kicker"><span>Your choice</span><span>Two open bottles</span><span>Open plus open</span></div>
+<h2 class="title">Your build</h2>
+<p class="dek">Any two open bottles from your own shelf. The prediction is written before the spray, and choosing is the skill. If they refuse to merge, a third bottle that shares a material with both is the bridge, and your own verdicts say which material.</p>
+<div class="metastrip"><span><b>2</b> bottles, yours</span><span><b>1</b> bridge if needed</span><span><b>2</b> days</span></div>
+<div class="sechead" id="l12-sA"><span class="seclet">A</span><h3>Before you start</h3></div>
+<ul class="need"><li>Two open bottles of your choosing. Write which, and why, before you spray.</li><li>For day two if needed: an elemi bottle. Elemi is in four of the seven bottles you rated excellent and in none you rated lower; at home that means Ouranon, Fuego Futuro, Rain Wood and Angelica.</li></ul>
+<div class="sechead" id="l12-sB"><span class="seclet">B</span><h3>The clock: what to read, and when</h3></div>
+<p class="secnote">Set alarms. A reading taken when you happen to notice the scent over-samples the loud moments.</p>
+<table class="clock"><tr><th>Time</th><th>What is happening</th><th>What to write</th></tr>
+<tr><td class="k">0:30</td><td>Your openings.</td><td>As predicted?</td></tr>
+<tr><td class="k">2:00</td><td>Your hearts.</td><td>Merged, or side by side?</td></tr>
+<tr><td class="k">6:00</td><td>Your drydowns.</td><td>Gain, loss, wear it? If side by side, plan day two.</td></tr>
+</table>
+<div class="sechead" id="l12-sC"><span class="seclet">C</span><h3>Steps</h3></div>
+<div class="step" id="l12-s1"><div class="shead"><span class="num">1</span><h5>Choose, and say why</h5></div>
+<p>Pick the two. Write one sentence on what you expect the second to do to the first: add a top, add a surface, add a direction the first lacks. The sentence is the lesson.</p>
+<div class="box why"><span class="bh">Why the sentence matters</span>Up to here the pairs were handed to you, which is why the earlier lessons cannot tell you much about what you have actually picked up. A prediction you wrote yourself, in the vocabulary of role and vapour pressure, can. Sommelier students two months into training could name odours better than controls and could not discriminate them better (Poupon et al. 2019); the naming is what a course installs first, and this is where it shows.</div>
+</div>
+<div class="step" id="l12-s2"><div class="shead"><span class="num">2</span><h5>If they refuse to merge, bridge on day two</h5></div>
+<p>If at two hours you smell two things, a third bottle that shares a material with both can join them. On a second day, put one spray of an elemi bottle in a zone between the two.</p>
+<div class="box why"><span class="bh">Why elemi, and why one spray</span>A shared material gives two compositions something to meet on; it is the closest a stack gets to a composed middle. Elemi is yours by the evidence of your own sheet. One spray, because three bottles at once is more material, and more material is mud; the bridge is a second experiment, not a rescue of the first.</div>
+<div class="box watch"><span class="bh">Watch for: Bridging two bottles that already merged</span>If day one read as one thing at two hours, there is nothing to bridge. Day two is only for a side-by-side result.</div>
+</div>
+<div class="sechead" id="l12-sD"><span class="seclet">D</span><h3>Prediction, then result</h3></div>
+<div id="rec-l12" data-n="12" data-predict="Which two, and what specifically do you expect the second to do to the first? One sentence, in the vocabulary of role."></div>
+<div class="srchead">Sources</div><ul class="sources"><li><a href="https://link.springer.com/article/10.1007/s12078-019-09256-w">Poupon, Fernandez and Frasnelli, Sommelier students display superior abilities to identify but not to detect or discriminate odors early in their training, Chemosensory Perception 2019</a></li><li><a href="https://shop.perfumersapprentice.com/perfumersworkshop/carles1.pdf">Jean Carles, A method of creation in perfumery, 1961 (PDF)</a></li></ul>
+</article><article id="l13">
+<div class="kicker"><span>One strong bottle</span><span>Three days</span><span>Strong and composed</span></div>
+<h2 class="title">Portrait of a Lady, wearable</h2>
+<p class="dek">Three attempts across three days: on a scarf, under a quiet bottle as a relay, and alone at half the dose. Less is not the same as anchored, and this is where you feel the difference on a bottle you own and do not wear.</p>
+<div class="metastrip"><span><b>1</b> bottle</span><span><b>3</b> days</span><span><b>3</b> operations</span></div>
+<div class="sechead" id="l13-sA"><span class="seclet">A</span><h3>Before you start</h3></div>
+<ul class="need"><li>Day one: one spray of Portrait of a Lady on a scarf, worn. Nothing on skin.</li><li>Day two: one spray of Portrait of a Lady on the wrist in the morning; at hour two, one spray of Trudon II a hand's width above it. A relay with a quiet bottle.</li><li>Day three: half a spray on skin, nothing else. Spray once into the air at chest height and walk through it if a half spray is hard to do.</li></ul>
+<div class="sechead" id="l13-sB"><span class="seclet">B</span><h3>The clock: what to read, and when</h3></div>
+<p class="secnote">Set alarms. A reading taken when you happen to notice the scent over-samples the loud moments.</p>
+<table class="clock"><tr><th>Time</th><th>What is happening</th><th>What to write</th></tr>
+<tr><td class="k">0:30</td><td>Rose, clove and raspberry, at whatever distance the day's method puts them.</td><td>Loud, or present?</td></tr>
+<tr><td class="k">3:00</td><td>Patchouli, incense and sandalwood.</td><td>Would you leave the flat like this?</td></tr>
+<tr><td class="k">6:00</td><td>Musk, benzoin and amber.</td><td>Gain, loss, and which day won.</td></tr>
+</table>
+<div class="sechead" id="l13-sC"><span class="seclet">C</span><h3>Steps</h3></div>
+<div class="step" id="l13-s1"><div class="shead"><span class="num">1</span><h5>Day one: the scarf</h5></div>
+<p>One spray on a scarf, worn. The rose is at a distance from your nose and from your skin's warmth.</p>
+<div class="box why"><span class="bh">Why the scarf</span>Cloth holds the scent and does not warm it, so the bottle stays itself at a lower volume and a greater distance. This is lesson 7's cuff, used as a tool. Robin at Now Smell This suggests the other version of the same idea for a bottle this strong: decant it so you can apply the teensiest little dab.</div>
+</div>
+<div class="step" id="l13-s2"><div class="shead"><span class="num">2</span><h5>Day two: a quiet bottle over it, as a relay</h5></div>
+<p>One spray of Portrait of a Lady on the wrist. At hour two, one spray of Trudon II a hand's width above it.</p>
+<div class="box why"><span class="bh">Why Trudon II, and why at hour two</span>Trudon II's base is ambroxan and cashmeran: a quiet, fixative-heavy bottle that adds body without adding much of a smell, which is what you want over something that already has too much to say. At hour two the rose's clove and raspberry have gone and you are putting the green over patchouli and incense, materials Trudon II already shares. This is the relay from lesson 10, run in the other direction: a quiet bottle onto a strong drydown.</div>
+<div class="box watch"><span class="bh">Watch for: Putting the strong one on top</span>The order matters here more than anywhere. Portrait of a Lady over Trudon II is Portrait of a Lady.</div>
+</div>
+<div class="step" id="l13-s3"><div class="shead"><span class="num">3</span><h5>Day three: half a dose, alone</h5></div>
+<p>Half a spray. This is the control for the other two: the bottle itself at a lower volume, with nothing else changed.</p>
+<div class="box why"><span class="bh">Why dose is a separate variable</span>A smaller dose makes a strong scent quieter and leaves its shape intact; a second bottle changes the shape. Both end in something more wearable, and they are not the same operation. Some materials also change character with concentration rather than just volume, indole and the animalic musks most famously, and a strong rose-patchouli at half dose may read as a different perfume, not a quieter one. Day three finds out which.</div>
+</div>
+<div class="sechead" id="l13-sD"><span class="seclet">D</span><h3>Prediction, then result</h3></div>
+<p class="secnote">Where this splits. The result decides which branch you are on.</p>
+<div class="fork"><div><span>One way</span>If the half-dose version works, this was a question of amount and the bottle can go back into rotation as it is, applied differently.</div><div><span>The other</span>If only the relay works, the rose wants a partner and sits with the open bottles despite its strength, and Trudon II is its partner.</div></div>
+<div id="rec-l13" data-n="13" data-predict="Which of the three do you expect to wear out of the flat: scarf, relay, or half dose?"></div>
+<div class="srchead">Sources</div><ul class="sources"><li><a href="https://nstperfume.com/">Robin, Perfumista tip: on perfume layering, Now Smell This, December 2007</a></li><li><a href="https://onlinelibrary.wiley.com/doi/10.1046/j.1467-2494.2003.00194.x">Saiyasombati and Kasting, Two-stage kinetic analysis of fragrance evaporation and absorption from skin, Int J Cosmetic Science 2003</a></li><li><a href="https://cafleurebon.com/">Perfumer workshop: layering natural fragrances, part 1, CaFleureBon, June 2021</a></li></ul>
+</article><article id="l14">
+<div class="kicker"><span>One mainstream bottle</span><span>One of yours</span><span>Strong and composed</span></div>
+<h2 class="title">The axis you reject</h2>
+<p class="dek">Boss Bottled Night on the wrist, one of yours above it. The only bottle at home on the mainstream designer axis, and the one operation that separates two possible reasons for rejecting it.</p>
+<div class="metastrip"><span><b>1</b> designer bottle</span><span><b>1</b> of yours</span><span><b>6 h</b> of readings</span></div>
+<div class="sechead" id="l14-sA"><span class="seclet">A</span><h3>Before you start</h3></div>
+<ul class="need"><li>Boss Bottled Night, one spray on the left wrist.</li><li>One of yours, one spray a hand's width up. Pick whichever you think has the best chance and write why before you spray. A shared material is the strongest reason; a contrasting vapour pressure is the second.</li></ul>
+<div class="sechead" id="l14-sB"><span class="seclet">B</span><h3>The clock: what to read, and when</h3></div>
+<p class="secnote">Set alarms. A reading taken when you happen to notice the scent over-samples the loud moments.</p>
+<table class="clock"><tr><th>Time</th><th>What is happening</th><th>What to write</th></tr>
+<tr><td class="k">0:30</td><td>Birch leaf and lavender in the air under your bottle's opening.</td><td>Yours, or theirs with something on top?</td></tr>
+<tr><td class="k">2:00</td><td>Violet, jasmine and cardamom.</td><td>Has your bottle claimed it, or is it arguing?</td></tr>
+<tr><td class="k">6:00</td><td>Musk and generic woods.</td><td>Gain, loss, and which answer the fork gives.</td></tr>
+</table>
+<div class="sechead" id="l14-sC"><span class="seclet">C</span><h3>Steps</h3></div>
+<div class="step" id="l14-s1"><div class="shead"><span class="num">1</span><h5>Pick the partner and say why</h5></div>
+<p>Choose which of yours goes above it, and write the reason before you spray.</p>
+<div class="box why"><span class="bh">Why this lesson exists</span>Your record holds both halves of the tension already: you notice and admire mainstream scents on other people, and you never wear them. A rejection can be of the materials or of the way they are put together. Layering changes the construction and leaves the materials alone, which makes it a clean test between the two. This bottle also carries violet and cardamom, both of which appear only among the bottles you rated lower, so one candidate answer is already on the table.</div>
+</div>
+<div class="step" id="l14-s2"><div class="shead"><span class="num">2</span><h5>Read for ownership at two hours</h5><span class="when">2:00</span></div>
+<p>Is this now a scent of yours with a mainstream base, or a mainstream scent with something odd on top? Those are the two outcomes, and arguing, two things that refuse to settle, is a third worth naming.</p>
+<div class="box watch"><span class="bh">Watch for: Judging it as a perfume</span>You are not deciding whether you like Boss Bottled Night. You are deciding what your bottle did to it.</div>
+</div>
+<div class="sechead" id="l14-sD"><span class="seclet">D</span><h3>Prediction, then result</h3></div>
+<p class="secnote">Where this splits. The result decides which branch you are on.</p>
+<div class="fork"><div><span>One way</span>If the layer claims it, the mainstream axis is material like any other, and much cheaper material than anything else at home.</div><div><span>The other</span>If it stays generic under everything you own, the objection is to how it is built rather than to what is in it, and no amount of layering will move that. Either answer is worth having.</div></div>
+<div id="rec-l14" data-n="14" data-predict="Does the layer make it yours, or does it stay a mainstream scent with something odd on top? And which of yours did you choose, and why?"></div>
+<div class="srchead">Sources</div><ul class="sources"><li><a href="https://cafleurebon.com/">Perfumers workshop: layering perfumes, part 2, CaFleureBon, July 2021</a></li><li><a href="https://nstperfume.com/">Robin, Perfumista tip: on perfume layering, Now Smell This, December 2007</a></li></ul>
+</article><article id="l15">
+<div class="kicker"><span>Your choice</span><span>A full day</span><span>Strong and composed</span></div>
+<h2 class="title">The pair you expect not to work</h2>
+<p class="dek">Two bottles you expect will not go together, worn for a full day, and written up in the vocabulary of why pairs do not hold. The vocabulary is the lesson; the pair is the apparatus.</p>
+<div class="metastrip"><span><b>2</b> bottles, yours</span><span><b>1</b> post-mortem</span><span><b>6 h</b> of readings</span></div>
+<div class="sechead" id="l15-sA"><span class="seclet">A</span><h3>Before you start</h3></div>
+<ul class="need"><li>Two bottles you expect will not go together. Write the expected outcome before you spray, using one of the four words below.</li></ul>
+<div class="sechead" id="l15-sB"><span class="seclet">B</span><h3>The clock: what to read, and when</h3></div>
+<p class="secnote">Set alarms. A reading taken when you happen to notice the scent over-samples the loud moments.</p>
+<table class="clock"><tr><th>Time</th><th>What is happening</th><th>What to write</th></tr>
+<tr><td class="k">0:30</td><td>Whatever it is.</td><td>Which one was meant to be the base?</td></tr>
+<tr><td class="k">2:00</td><td>Whatever it is now.</td><td>What did the top take away?</td></tr>
+<tr><td class="k">6:00</td><td>Whatever is left.</td><td>At which hour did it stop holding together, and which of the four words?</td></tr>
+</table>
+<div class="sechead" id="l15-sC"><span class="seclet">C</span><h3>Steps</h3></div>
+<div class="step" id="l15-s1"><div class="shead"><span class="num">1</span><h5>The four words</h5></div>
+<p>Muddy: too much mid-weight material, nothing on top or underneath, and often a headache. Loud: overlap summing, the same idea at twice the dose. Flat: no spread of vapour pressure, everything leaving at once, so the pair has no clock. Arguing: two constructions that share nothing to meet on and never settle into one thing.</p>
+<div class="box why"><span class="bh">Where the words come from</span>Practitioners name the same outcomes independently. A natural perfumer warns that two initially heavy fragrances become overpowering and in the end smell muddy and can lead into a headache (CaFleureBon 2021). A German blogger describes results that get overloaded and disharmonious, and citrus lost against dark bases (Parfumo 2024). A reader at Now Smell This reports two perfumes that have not stopped arguing all morning. Each word has a cause, and the cause is what you can fix next time.</div>
+</div>
+<div class="step" id="l15-s2"><div class="shead"><span class="num">2</span><h5>Three questions, in role terms</h5></div>
+<p>Which one was the base. What the top layer took away. At which hour it stopped holding together. Answer all three before you write anything about liking it.</p>
+<div class="box why"><span class="bh">Why the vocabulary of what does not hold</span>Naming why a combination does not hold is the part that transfers. A vocabulary built only on the pairs you liked describes your taste; one that also covers the rest describes the mechanism, and mechanism is what predicts the next pair. Perfumer training works the same way: a nose is defined by Carles as someone who can tell lavender 50 from lavender 40, which is a skill of noticing what is wrong, not what is nice.</div>
+</div>
+<div class="sechead" id="l15-sD"><span class="seclet">D</span><h3>Prediction, then result</h3></div>
+<div id="rec-l15" data-n="15" data-predict="Which pair, and which of the four words do you expect: muddy, loud, flat, or arguing?"></div>
+<div class="srchead">Sources</div><ul class="sources"><li><a href="https://cafleurebon.com/">Perfumer workshop: layering natural fragrances, part 1, CaFleureBon, June 2021</a></li><li><a href="https://www.parfumo.de/">Dufte richtig layern, Parfumo.de forum; and Cimi, Parfumo.de blog, November 2024</a></li><li><a href="https://nstperfume.com/">Robin, Perfumista tip: on perfume layering, Now Smell This, December 2007</a></li><li><a href="https://shop.perfumersapprentice.com/perfumersworkshop/carles1.pdf">Jean Carles, A method of creation in perfumery, 1961 (PDF)</a></li></ul>
+</article><article id="l16">
+<div class="kicker"><span>A borrowed bottle</span><span>Two zones</span><span>Across families</span></div>
+<h2 class="title">Fruit over campfire</h2>
+<p class="dek">Smoke and dry wood on the wrist, pear and white musk above. Nothing in your bottles contains fruit and nothing contains a clean white musk, so this is the first pair with no prior at all, and the first that reaches the direction your record says you are chasing.</p>
+<div class="metastrip"><span><b>1</b> of yours</span><span><b>1</b> borrowed</span><span><b>6 h</b> of readings</span></div>
+<p class="borrowed">A borrowed bottle, so ask the owner before each of these two. Jo Malone London, pear over sweet pea on a clean white musk. That base matters as much as the fruit: a white musk is the one thing at home that adds almost no smell of its own, which is a fixative by another name.</p>
+<div class="sechead" id="l16-sA"><span class="seclet">A</span><h3>Before you start</h3></div>
+<ul class="need"><li>Moonlark Ash, one spray on the left wrist. English Pear & Sweet Pea, one spray a hand's width up.</li></ul>
+<div class="sechead" id="l16-sB"><span class="seclet">B</span><h3>The clock: what to read, and when</h3></div>
+<p class="secnote">Set alarms. A reading taken when you happen to notice the scent over-samples the loud moments.</p>
+<table class="clock"><tr><th>Time</th><th>What is happening</th><th>What to write</th></tr>
+<tr><td class="k">0:30</td><td>Pear in the air over bergamot and black pepper.</td><td>Foreign object, or found sweetness?</td></tr>
+<tr><td class="k">2:00</td><td>Sweet pea over pine and tree sap.</td><td>Is the musk doing anything? Is the smoke quieter or just further away?</td></tr>
+<tr><td class="k">6:00</td><td>White musk over cypress, vetiver and incense.</td><td>Gain, loss, and the fork.</td></tr>
+</table>
+<div class="sechead" id="l16-sC"><span class="seclet">C</span><h3>Steps</h3></div>
+<div class="step" id="l16-s1"><div class="shead"><span class="num">1</span><h5>Smoke on the wrist, fruit above</h5></div>
+<p>Moonlark Ash first, English Pear & Sweet Pea a minute later.</p>
+<div class="box why"><span class="bh">Why there is no prior</span>Everything up to here has been recombination inside a range you already know well enough to guess at. A fruit and a white musk are outside that range, so the prediction is a real one. Perfumers interviewed about layering name fruity florals over dark and resinous bases as one of the pairings that adds a dimension rather than competing (CaFleureBon 2021); whether that holds for your nose is the question.</div>
+</div>
+<div class="step" id="l16-s2"><div class="shead"><span class="num">2</span><h5>Read the musk separately at two hours</h5><span class="when">2:00</span></div>
+<p>Try to separate what the pear is doing from what the musk is doing. The pear is the foreign object; the musk is a quiet fixative that may be holding the whole pair together, or holding the smoke at a distance.</p>
+<div class="box why"><span class="bh">Why the musk is the interesting half</span>A white musk is close to what lesson 4 tested: low vapour pressure, little character, and the ability to slow everything else down. If the pair reads as one thing, the musk may deserve more of the credit than the pear. Musk perception is receptor-specific and varies by person: about one in twelve could not smell a macrocyclic musk in the 1973 study, a named receptor drives blindness to Galaxolide (PLOS Genetics 2021), and the perfumer Maurice Roucel is reported to be unable to smell Galaxolide while composing with it (Bois de Jasmin 2025). If the musk reads as nothing to you, that is information, not a failure of attention.</div>
+</div>
+<div class="sechead" id="l16-sD"><span class="seclet">D</span><h3>Prediction, then result</h3></div>
+<p class="secnote">Where this splits. The result decides which branch you are on.</p>
+<div class="fork"><div><span>One way</span>If it holds, the off-axis direction is reachable from bottles already in the flat and the next thing to buy is a family, not another bottle in the range you own.</div><div><span>The other</span>If the fruit refuses to belong, that is a real answer about how narrow the range is, and the search should stay adjacent instead of jumping.</div></div>
+<div id="rec-l16" data-n="16" data-predict="Does the fruit sit on the smoke as a foreign object, or does it find sweetness the smoke already had? And do you expect to smell the musk at all?"></div>
+<div class="srchead">Sources</div><ul class="sources"><li><a href="https://cafleurebon.com/">Perfumer workshop: layering natural fragrances, part 1, CaFleureBon, June 2021</a></li><li><a href="https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1009564">From musk to body odor: decoding olfaction through genetic variation, PLOS Genetics 2021</a></li><li><a href="https://www.nature.com/articles/242271a0">Whissell-Buechy and Amoore, Odour-blindness to musk: simple recessive inheritance, Nature 1973</a></li><li><a href="https://boisdejasmin.com/2025/08/why-some-people-smell-nothing-in-baccarat-rouge-540.html">Victoria Frolova, Why some people smell nothing in Baccarat Rouge 540, Bois de Jasmin, August 2025</a></li></ul>
+</article><article id="l17">
+<div class="kicker"><span>A borrowed bottle</span><span>Two zones</span><span>Across families</span></div>
+<h2 class="title">Honey against resin</h2>
+<p class="dek">Resin, hay and frankincense on the wrist; osmanthus and honey above. Sharper than it looks, because Ouranon already carries the closest thing you own to sweetness and you rated it excellent. The pair asks a question about your own record.</p>
+<div class="metastrip"><span><b>1</b> of yours</span><span><b>1</b> borrowed</span><span><b>6 h</b> of readings</span></div>
+<p class="borrowed">A borrowed bottle. Serge Lutens, 2009, Christopher Sheldrake: mandarin and jasmine over osmanthus, lily and carnation, on musk, honey and almond.</p>
+<div class="sechead" id="l17-sA"><span class="seclet">A</span><h3>Before you start</h3></div>
+<ul class="need"><li>Ouranon, one spray on the left wrist. Nuit de Cellophane, one spray a hand's width up.</li></ul>
+<div class="sechead" id="l17-sB"><span class="seclet">B</span><h3>The clock: what to read, and when</h3></div>
+<p class="secnote">Set alarms. A reading taken when you happen to notice the scent over-samples the loud moments.</p>
+<table class="clock"><tr><th>Time</th><th>What is happening</th><th>What to write</th></tr>
+<tr><td class="k">0:30</td><td>Mandarin and jasmine in the air over lavender and elemi.</td><td>Sweet, or bright?</td></tr>
+<tr><td class="k">2:00</td><td>Osmanthus and honey over hay and camomile.</td><td>Does the hay hold the honey, or does the honey float?</td></tr>
+<tr><td class="k">6:00</td><td>Almond and musk over myrrh, patchouli and tonka.</td><td>Gain, loss, and the answer to the record's rule.</td></tr>
+</table>
+<div class="sechead" id="l17-sC"><span class="seclet">C</span><h3>Steps</h3></div>
+<div class="step" id="l17-s1"><div class="shead"><span class="num">1</span><h5>Resin on the wrist, honey above</h5></div>
+<p>Ouranon first, Nuit de Cellophane a minute later.</p>
+<div class="box why"><span class="bh">Why Ouranon</span>It carries tonka bean and hay, which are the closest thing you own to sweetness, and you rated it excellent. It also carries elemi, your documented bridge, and frankincense under the hay. So this pair asks a sharper question than whether you like it: is the rule in your record against sweetness itself, or only against sweetness with nothing under it?</div>
+</div>
+<div class="step" id="l17-s2"><div class="shead"><span class="num">2</span><h5>Osmanthus, separately</h5><span class="when">2:00</span></div>
+<p>Osmanthus reads as apricot and leather at the same time. At two hours, try to hear the leather half of it against the hay; that is the material most likely to be doing the joining.</p>
+<div class="box why"><span class="bh">Why osmanthus might be the bridge</span>A material with two faces can meet two bases. The apricot face meets the honey and the mandarin; the leather face meets the hay and the resin. If this pair reads as one thing, that double-faced material is probably why, and it is a shape worth recognising: the bridge is not always a shared material, sometimes it is one material that faces both ways.</div>
+</div>
+<div class="sechead" id="l17-sD"><span class="seclet">D</span><h3>Prediction, then result</h3></div>
+<div id="rec-l17" data-n="17" data-predict="Sweetness itself, or only sweetness with nothing underneath it? Commit before you spray."></div>
+<div class="srchead">Sources</div><ul class="sources"><li><a href="https://cafleurebon.com/">Perfumer workshop: layering natural fragrances, part 1, CaFleureBon, June 2021</a></li><li><a href="https://shop.perfumersapprentice.com/perfumersworkshop/carles1.pdf">Jean Carles, A method of creation in perfumery, 1961 (PDF)</a></li></ul>
+</article>
+</div></main>
+<div class="railcol">
+<div class="rail" data-for="l1"><div class="raillabel">What this teaches, and where it transfers</div>
+<div class="tcard master"><span class="th">Calibration 1: a perfume is a process</span><p><b>What a bottle is at 0:30 and what it is at 6:00 are different materials, and most verdicts, including the ones in your sheet, were written on the first.</b> Every later lesson reads a pair at these same clock times. This day is the habit being installed.</p></div>
+<div class="tcard" data-target="l1-s2"><span class="th">Step 2: the clock is the method</span><p>Fixed reading times are what make results comparable across seventeen lessons and across bottles. Attention-driven sniffing produces a different, biased dataset every day.</p></div>
+<div class="tcard" data-target="l1-s3"><span class="th">Step 3: adaptation is the main source of wrong conclusions</span><p>It is central, not receptor fatigue, and it outlasts the wearing by a long margin (Dalton and Wysocki 1996). A second nose or a left-behind sleeve is the correction, and lesson 4 tests what happens when the material itself is one your receptors may not report.</p></div>
+</div><div class="rail" data-for="l2"><div class="raillabel">What this teaches, and where it transfers</div>
+<div class="tcard master"><span class="th">Calibration 2: the drydown is the perfume</span><p><b>Most judgments are made in the window where a perfume is least itself.</b> The opening is the few minutes of the most volatile materials; the drydown is most of the day. Reading both bottles at four hours is what makes complete and open mean something you can act on.</p></div>
+<div class="tcard" data-target="l2-s2"><span class="th">Step 2: A, B, A</span><p>The working method for the whole course. It is also how noses are trained: Carles had beginners smell contrasting materials first, then materials within one family, always against each other.</p></div>
+<div class="tcard" data-target="l2-s3"><span class="th">Step 3: vapour pressure, not weight</span><p>The evaporation order is a continuous curve, and the pyramid is a sketch of it. Lesson 10 uses this deliberately: a high-vapour-pressure bottle over a low one gives a pair a clock of its own.</p></div>
+<div class="tcard" data-target="l2-s4"><span class="th">Step 4: predict before, read blind where you can</span><p>The commit-before-spray box in every lesson exists because of Morrot's dyed wine. A prediction written after the fact is a description.</p></div>
+</div><div class="rail" data-for="l3"><div class="raillabel">What this teaches, and where it transfers</div>
+<div class="tcard master"><span class="th">Calibration 3: reference materials</span><p><b>Most perfumes are built so that no single material is identifiable, which is why they are hard to learn from.</b> These two are the opposite, and they become the reference points the rest of the course is read against. Carles's beginners smelled contrasting materials first, then materials within one family; lesson 2 was the contrast, this is the within-family pair.</p></div>
+<div class="tcard" data-target="l3-s1"><span class="th">Step 1: vocabulary is the unlock</span><p>Your record says you are fluent where a domain has a language you can operate through. This lesson builds that language from your own words, one per material, and the course keeps asking for them.</p></div>
+<div class="tcard" data-target="l3-s3"><span class="th">Step 3: transfer</span><p>Name it alone, find it in a composition. The move works for any material you can get close to on its own, and it is what separates hearing a perfume from recognising it.</p></div>
+</div><div class="rail" data-for="l4"><div class="raillabel">What this teaches, and where it transfers</div>
+<div class="tcard master"><span class="th">Calibration 4: fixatives</span><p><b>A fixative adds body and time with almost no smell of its own, and it slows the top notes as much as it holds the base.</b> Whether you can perceive these two molecules decides whether you can use them. That is a fact about your receptors, and worth knowing early.</p></div>
+<div class="tcard" data-target="l4-s2"><span class="th">Step 2: anosmia is not adaptation</span><p>Adaptation is temporary, central and exposure-dependent. Anosmia is permanent, genetic and molecule-specific. Retail copy conflates them constantly. Nearly everyone has some blind spot; knowing yours is as useful as knowing what you love.</p></div>
+<div class="tcard" data-target="l4-s3"><span class="th">Step 3: where fixatives return</span><p>Lesson 13 tames a strong bottle, and one of the three methods is putting something quiet over it. If you can smell ambroxan, Trudon II is that quiet thing already on your shelf.</p></div>
+</div><div class="rail" data-for="l5"><div class="raillabel">What this teaches, and where it transfers</div>
+<div class="tcard master"><span class="th">The variable: overlap</span><p><b>Two bottles that share most of their materials sum; they do not add.</b> The result is the same idea at a higher concentration, which usually reads as louder rather than deeper. Every later pair is chosen to share less than these two do.</p></div>
+<div class="tcard" data-target="l5-s1"><span class="th">Step 1: zones are the default</span><p>Side by side, sharing the air, is the placement every lesson uses unless it says otherwise. It is the practitioners' finding, not the brands', and lesson 7 lets you check it on your own skin.</p></div>
+<div class="tcard" data-target="l5-s2"><span class="th">Step 2: constant total dose</span><p>Halving each spray keeps the comparison to a single bottle honest. It also stops the commonest way a pair goes wrong, which is simply too much.</p></div>
+<div class="tcard" data-target="l5-s4"><span class="th">Step 4: gain and loss</span><p>Every pair from here on gets the same two-line verdict. A pair with no nameable gain is not worth wearing, however pleasant it is.</p></div>
+</div><div class="rail" data-for="l6"><div class="raillabel">What this teaches, and where it transfers</div>
+<div class="tcard master"><span class="th">The variable: role</span><p><b>A pair works when the two bottles are doing different jobs.</b> One supplies the statement and one supplies the surface it sits on. Same-role pairs get louder; different-role pairs get deeper. This is the first pair in the course chosen for role rather than family.</p></div>
+<div class="tcard" data-target="l6-s2"><span class="th">Step 2: texture versus dilution</span><p>The distinction returns in every open-plus-open lesson. It is the difference between a base and a solvent.</p></div>
+<div class="tcard" data-target="l6-s3"><span class="th">Step 3: a pair has a clock too</span><p>Two bottles evaporate on two schedules. The pair at six hours is not the pair at two. Lesson 10 builds a pair around exactly this.</p></div>
+</div><div class="rail" data-for="l7"><div class="raillabel">What this teaches, and where it transfers</div>
+<div class="tcard master"><span class="th">The variable: placement</span><p><b>Layering has three placement variables people collapse into one:</b> whether the two share a spot, which goes down first, and whether one is on cloth. Each changes the result on its own. Run them side by side once and you will not confuse them again.</p></div>
+<div class="tcard" data-target="l7-s1"><span class="th">Step 1: the same-spot test</span><p>The brands say stack; the practitioners say zone. Today decides it for your skin. If same-spot wins for you, say so in the record and the later lessons can be run that way.</p></div>
+<div class="tcard" data-target="l7-s3"><span class="th">Step 3: cloth as a tool</span><p>Cloth is how you wear a strong bottle at a distance from your own nose. Lesson 13 uses a scarf for exactly this.</p></div>
+</div><div class="rail" data-for="l8"><div class="raillabel">What this teaches, and where it transfers</div>
+<div class="tcard master"><span class="th">The variable: two open bottles</span><p><b>Two bottles that each leave room can fill it for each other, or leave a bigger room.</b> Which happens depends on whether they are open in different directions and whether they share anything to meet on. This is the first pair with no complete bottle to lean on.</p></div>
+<div class="tcard" data-target="l8-s2"><span class="th">Step 2: merged or side by side</span><p>The two-perfumes result comes back in every remaining lesson. A shared material, a bridge, is usually what turns side by side into merged. Lesson 12 is where you choose one deliberately.</p></div>
+<div class="tcard" data-target="l8-s3"><span class="th">Step 3: a pair has a clock</span><p>Merging late is the norm, not the exception. Naming the hour at which a pair becomes one thing is a better verdict than yes or no.</p></div>
+</div><div class="rail" data-for="l9"><div class="raillabel">What this teaches, and where it transfers</div>
+<div class="tcard master"><span class="th">The variable: direction of openness</span><p><b>Open is not one property.</b> A diffuse bottle and a narrow bottle are both open, but a diffuse one leaves room everywhere and a narrow one leaves room on both sides of a single line. Two narrow bottles on different lines can build; two diffuse ones cannot.</p></div>
+<div class="tcard" data-target="l9-s2"><span class="th">Step 2: when the character is volatile</span><p>A bottle whose personality lives in its top is a different layering partner at 0:30 and at 2:00. Match the reading time to where the bottle keeps its character.</p></div>
+</div><div class="rail" data-for="l10"><div class="raillabel">What this teaches, and where it transfers</div>
+<div class="tcard master"><span class="th">The variable: vapour pressure, and timing</span><p><b>A fast bottle over a slow one gives the pair a clock.</b> The fast one is the opening and the slow one is the drydown, which is how a single perfume is built too. This is the layering move most likely to work between any two bottles you own, and the relay is its second form.</p></div>
+<div class="tcard" data-target="l10-s1"><span class="th">Step 1: slow one first</span><p>The rule generalises: the slower-evaporating bottle goes down first, the faster one above. It is the same reason a perfumer puts musks in the base and citrus at the top.</p></div>
+<div class="tcard" data-target="l10-s3"><span class="th">Step 3: the relay</span><p>Spraying onto a drydown is a different technique from stacking two openings. Lesson 13 uses it to tame a strong bottle.</p></div>
+</div><div class="rail" data-for="l11"><div class="raillabel">What this teaches, and where it transfers</div>
+<div class="tcard master"><span class="th">The limit: composed versus stacked</span><p><b>Layering puts two evaporation curves next to each other; composition weaves one.</b> A perfumer can put a bridge material in the middle that both halves share. You mostly cannot. Knowing exactly what that gap feels like is what stops you chasing it.</p></div>
+<div class="tcard" data-target="l11-s2"><span class="th">Step 2: the bridge</span><p>Carles's graded pairs are what a bridge is at the formula level. At the bottle level your only bridge is a shared material, and your own verdicts say which one: elemi.</p></div>
+</div><div class="rail" data-for="l12"><div class="raillabel">What this teaches, and where it transfers</div>
+<div class="tcard master"><span class="th">The skill: prediction</span><p><b>Being able to say what the second bottle will do to the first, and being right more often than not, is the whole course.</b> This is the first lesson that measures it, because it is the first where nothing was given.</p></div>
+<div class="tcard" data-target="l12-s2"><span class="th">Step 2: the bridge</span><p>A shared material is what turns two perfumes into one. Elemi is yours by your own verdicts; other people's bridges are musks and ambroxan, which lesson 4 tested.</p></div>
+</div><div class="rail" data-for="l13"><div class="raillabel">What this teaches, and where it transfers</div>
+<div class="tcard master"><span class="th">The variable: dose versus structure</span><p><b>A smaller dose makes a strong scent quieter and leaves its shape intact; putting something over it changes the shape.</b> Two different operations, easy to confuse, because both end in something more wearable. Three days separate them on a bottle you paid for and do not wear.</p></div>
+<div class="tcard" data-target="l13-s2"><span class="th">Step 2: fixatives as tamers</span><p>A quiet fixative-heavy bottle over a loud one is what a musk over a loud floral does in enthusiast lore. Trudon II is the version already on your shelf, if lesson 4 said you can smell ambroxan.</p></div>
+<div class="tcard" data-target="l13-s3"><span class="th">Step 3: concentration changes character</span><p>Not only volume. This is the mechanism behind lesson 14 too: what you reject in a bottle may be a concentration, not a material.</p></div>
+</div><div class="rail" data-for="l14"><div class="raillabel">What this teaches, and where it transfers</div>
+<div class="tcard master"><span class="th">The question: materials or construction</span><p><b>A rejection can be of the materials or of the way they are put together.</b> Layering changes the construction and leaves the materials alone, which makes it the cleanest test between the two that exists outside a laboratory.</p></div>
+<div class="tcard" data-target="l14-s2"><span class="th">Step 2: three outcomes, not two</span><p>Claimed, unclaimed, and arguing. The third is a real result and it has a cause: two constructions that share no material to meet on.</p></div>
+</div><div class="rail" data-for="l15"><div class="raillabel">What this teaches, and where it transfers</div>
+<div class="tcard master"><span class="th">The vocabulary: muddy, loud, flat, arguing</span><p><b>Four ways a pair stops holding together, and each has a cause.</b> Muddy is too much mid-weight material. Loud is overlap summing. Flat is no vapour-pressure spread. Arguing is no shared material. Naming which is what lets you fix the next one.</p></div>
+<div class="tcard" data-target="l15-s2"><span class="th">Step 2: role, then clock, then liking</span><p>The order of the three questions is the order of the whole course. Liking last, because it is the least reusable.</p></div>
+</div><div class="rail" data-for="l16"><div class="raillabel">What this teaches, and where it transfers</div>
+<div class="tcard master"><span class="th">Across a family line</span><p><b>Material from outside your range tests the range itself.</b> The direction your record says you are chasing, off-axis but lovable, is either reachable from the flat or it is not. This is the cheapest way to find out.</p></div>
+<div class="tcard" data-target="l16-s2"><span class="th">Step 2: the musk is a fixative</span><p>Clean white musk over a loud base is enthusiast lore for taming. Here it arrives inside someone else's bottle, doing that job whether or not you asked it to.</p></div>
+</div><div class="rail" data-for="l17"><div class="raillabel">What this teaches, and where it transfers</div>
+<div class="tcard master"><span class="th">A question about your own record</span><p><b>Not sweet is in your palette as a rule.</b> Ouranon is evidence the rule has an exception when the sweetness has resin under it. This pair pushes on exactly that exception, with a sweetness you have never worn over a resin you love.</p></div>
+<div class="tcard" data-target="l17-s2"><span class="th">Step 2: a two-faced material as a bridge</span><p>Lesson 12's bridge was a shared material. This is the other kind: one material with two characters, each meeting a different half. Osmanthus, iris and some musks all do it.</p></div>
+</div>
+</div>
+</div>
+<script>
+const TOTAL = 17;
+const TITLES = ["Rate the one you never rated", "Nothing is decided in the first ten minutes", "One idea, loudly", "Can you smell Iso E Super at all", "Two things that agree", "Powder under smoke", "Order and distance", "Two quiet ones", "Rain and turpentine", "White flower over amber", "Someone already made this", "Your build", "Portrait of a Lady, wearable", "The axis you reject", "The pair you expect not to work", "Fruit over campfire", "Honey against resin"];
+
+const $ = (s, r) => (r || document).querySelector(s);
+const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+const KEY = 'perfume-layering-v2';
+let store = {}, durable = true;
+try {
+  localStorage.setItem(KEY + '-probe', '1'); localStorage.removeItem(KEY + '-probe');
+  store = JSON.parse(localStorage.getItem(KEY) || '{}');
+} catch (e) { durable = false; }
+const save = () => { if (!durable) return; try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) { durable = false; warn(); } };
+function warn() {
+  const w = $('#warn'); if (!w) return;
+  w.hidden = durable;
+  if (!durable) w.textContent = 'This browser is not keeping your entries between visits. ' +
+    'Collect them with the button on the index sheet and paste them into layering-log.md before you close the tab.';
+}
+function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+let io = null;
+function show(id) {
+  $$('article').forEach(a => a.classList.toggle('on', a.id === id));
+  $$('.rail').forEach(r => r.classList.toggle('on', r.dataset.for === id));
+  $$('nav .item').forEach(l => l.classList.toggle('active', l.dataset.goto === id));
+  document.body.classList.toggle('no-rail', id === 'index');
+  window.scrollTo({ top: 0 });
+  drawRecord(id);
+  observe();
+}
+function observe() {
+  if (io) io.disconnect();
+  const rail = $('.rail.on'); if (!rail) return;
+  const map = {};
+  $$('.tcard[data-target]', rail).forEach(c => (map[c.dataset.target] = map[c.dataset.target] || []).push(c));
+  io = new IntersectionObserver(entries => {
+    entries.forEach(en => { (map[en.target.id] || []).forEach(c => c.classList.toggle('lit', en.isIntersecting)); });
+  }, { rootMargin: '-20% 0px -55% 0px' });
+  Object.keys(map).forEach(id => { const el = document.getElementById(id); if (el) io.observe(el); });
+}
+$$('[data-goto]').forEach(el => el.addEventListener('click', e => { e.preventDefault(); show(el.dataset.goto); }));
+$$('.tcard[data-target]').forEach(c => c.addEventListener('click', () => {
+  const t = document.getElementById(c.dataset.target); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}));
+
+function drawRecord(id) {
+  const box = $('#rec-' + id); if (!box) return;
+  const n = box.dataset.n, rec = store[n] || {}, predict = box.dataset.predict;
+  let h = '';
+  if (rec.prediction) {
+    h += '<div class="committed">' + esc(rec.prediction) + '</div>';
+    h += '<p class="secnote" style="margin-top:14px">What actually happened. Written after the wearing day, not during it.</p>';
+    h += '<textarea class="res" rows="6">' + esc(rec.result || '') + '</textarea>';
+    h += '<div class="act"><button class="go saveres">Save result</button><button class="ghost redo">Rewrite the prediction</button></div>';
+  } else {
+    h += '<p>' + esc(predict) + '</p>';
+    h += '<textarea class="pred" rows="4" placeholder="Commit to an answer before you spray anything."></textarea>';
+    h += '<div class="act"><button class="go commit">Commit</button><span class="locked">The result field opens once this is in.</span></div>';
+  }
+  box.innerHTML = h;
+  const c = $('.commit', box); if (c) c.onclick = () => {
+    const v = $('.pred', box).value.trim(); if (!v) { $('.pred', box).focus(); return; }
+    store[n] = Object.assign({}, store[n], { prediction: v, at: new Date().toISOString().slice(0, 10) }); save(); drawRecord(id); markDone();
+  };
+  const s = $('.saveres', box); if (s) s.onclick = () => {
+    store[n] = Object.assign({}, store[n], { result: $('.res', box).value.trim() }); save(); drawRecord(id); markDone();
+  };
+  const r = $('.redo', box); if (r) r.onclick = () => { delete store[n].prediction; save(); drawRecord(id); markDone(); };
+}
+function markDone() {
+  let done = 0;
+  $$('nav .item[data-n]').forEach(l => { const d = !!(store[l.dataset.n] && store[l.dataset.n].result); l.dataset.done = d ? '1' : '0'; if (d) done++; });
+  const c = $('#count'); if (c) c.textContent = done + ' of ' + TOTAL + ' recorded';
+}
+const ex = $('#export'); if (ex) ex.onclick = () => {
+  const out = TITLES.map((t, i) => [i + 1, t]).filter(([n]) => store[n]).map(([n, t]) => {
+    const r = store[n];
+    return '## Lesson ' + n + '. ' + t + '\n- Predicted (' + (r.at || '') + '): ' + (r.prediction || '') + '\n- Happened: ' + (r.result || 'not yet recorded');
+  }).join('\n\n');
+  const box = $('#exportbox'); box.value = out || 'Nothing recorded yet.'; box.hidden = false; box.select();
+};
+
+let first = 'index';
+for (let i = 1; i <= TOTAL; i++) { if (!(store[i] && store[i].result)) { first = 'l' + i; break; } }
+if (Object.keys(store).length === 0) first = 'index';
+markDone(); warn(); show(first);
+
+</script>
+</body>
+</html>
